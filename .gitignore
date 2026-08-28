@@ -1,0 +1,32 @@
+# Maven
+**/target/
+
+# Azure local
+**/local.settings.json
+
+# Oracle Wallet
+**/Wallet_*/
+**/wallet_*/
+*.sso
+*.p12
+*.jks
+
+# AWS y certificados
+*.pem
+*.key
+
+# Secretos
+.env
+*.env
+
+# Editores
+.vscode/
+.idea/
+*.iml
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
