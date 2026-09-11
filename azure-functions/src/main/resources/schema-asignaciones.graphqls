@@ -1,0 +1,54 @@
+"Rol asignado a un usuario"
+type Rol {
+    idRol: Int!
+    nombre: String!
+    descripcion: String
+    estado: String!
+    fechaCreacion: String!
+}
+
+"Permiso asignado a un rol"
+type Permiso {
+    idPermiso: Int!
+    nombre: String!
+    descripcion: String
+    estado: String!
+    fechaCreacion: String!
+}
+
+"Registro de asignación de un rol a un usuario"
+type AsignacionUsuarioRol {
+    idUsuario: Int!
+    idRol: Int!
+    fechaAsignacion: String!
+}
+
+"Registro de asignación de un permiso a un rol"
+type AsignacionRolPermiso {
+    idRol: Int!
+    idPermiso: Int!
+    fechaAsignacion: String!
+}
+
+type Query {
+    "Lista los roles asignados a un usuario"
+    rolesDeUsuario(idUsuario: Int!): [Rol!]!
+    "Lista los permisos asignados a un rol"
+    permisosDeRol(idRol: Int!): [Permiso!]!
+}
+
+type Mutation {
+    "Asigna un rol a un usuario"
+    asignarRolAUsuario(idUsuario: Int!, idRol: Int!): AsignacionUsuarioRol!
+    "Quita un rol a un usuario"
+    quitarRolAUsuario(idUsuario: Int!, idRol: Int!): Boolean!
+    "Asigna un permiso a un rol"
+    asignarPermisoARol(idRol: Int!, idPermiso: Int!): AsignacionRolPermiso!
+    "Quita un permiso a un rol"
+    quitarPermisoARol(idRol: Int!, idPermiso: Int!): Boolean!
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}

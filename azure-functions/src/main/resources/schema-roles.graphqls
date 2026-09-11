@@ -1,0 +1,29 @@
+"Rol del sistema de gestión de usuarios y roles"
+type Rol {
+    idRol: Int!
+    nombre: String!
+    descripcion: String
+    estado: String!
+    fechaCreacion: String!
+}
+
+type Query {
+    "Lista todos los roles"
+    roles: [Rol!]!
+    "Obtiene un rol por su ID"
+    rol(id: Int!): Rol
+}
+
+type Mutation {
+    "Crea un nuevo rol"
+    crearRol(nombre: String!, descripcion: String, estado: String): Rol!
+    "Actualiza un rol existente"
+    actualizarRol(id: Int!, nombre: String!, descripcion: String, estado: String!): Rol!
+    "Elimina un rol por su ID"
+    eliminarRol(id: Int!): Boolean!
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}

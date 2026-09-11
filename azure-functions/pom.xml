@@ -58,6 +58,13 @@
             <version>2.19.2</version>
         </dependency>
 
+        <!-- GraphQL (usado por la función de roles) -->
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java</artifactId>
+            <version>19.2</version>
+        </dependency>
+
         <!-- Pruebas -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

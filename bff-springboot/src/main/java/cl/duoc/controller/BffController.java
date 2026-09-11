@@ -50,9 +50,20 @@ public class BffController {
     }
 
     @RequestMapping(
+        value = "/api/roles",
+        method = org.springframework.web.bind.annotation.RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<String> roles(
+        @RequestBody String body
+    ) {
+        return reenviar("roles", null, body, HttpMethod.POST);
+    }
+
+    @RequestMapping(
         value = {
-            "/api/roles",
-            "/api/roles/{id}"
+            "/api/permisos",
+            "/api/permisos/{id}"
         },
         method = {
             org.springframework.web.bind.annotation.RequestMethod.GET,
@@ -62,12 +73,23 @@ public class BffController {
         },
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<String> roles(
+    public ResponseEntity<String> permisos(
         @PathVariable(required = false) String id,
         @RequestBody(required = false) String body,
         HttpMethod method
     ) {
-        return reenviar("roles", id, body, method);
+        return reenviar("permisos", id, body, method);
+    }
+
+    @RequestMapping(
+        value = "/api/asignaciones",
+        method = org.springframework.web.bind.annotation.RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<String> asignaciones(
+        @RequestBody String body
+    ) {
+        return reenviar("asignaciones", null, body, HttpMethod.POST);
     }
 
     private ResponseEntity<String> reenviar(

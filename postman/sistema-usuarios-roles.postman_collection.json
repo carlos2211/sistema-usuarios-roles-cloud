@@ -1,0 +1,389 @@
+{
+  "info": {
+    "name": "Sistema Usuarios y Roles - Azure Functions",
+    "description": "Colección para probar las 4 funciones desplegadas como Azure Functions: 'usuarios' y 'permisos' (REST), 'roles' y 'asignaciones' (GraphQL). Cambia la variable baseUrl para apuntar a local (http://localhost:7071/api) o a la nube.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://funcionusuariosroles1-hqasc7d7b2b2d9b9.eastus-01.azurewebsites.net/api"
+    },
+    {
+      "key": "usuarioId",
+      "value": "1"
+    },
+    {
+      "key": "rolId",
+      "value": "1"
+    },
+    {
+      "key": "permisoId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Usuarios (REST)",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["usuarios"]
+            }
+          }
+        },
+        {
+          "name": "Obtener usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/{{usuarioId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["usuarios", "{{usuarioId}}"]
+            }
+          }
+        },
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Maria\",\n  \"apellido\": \"Lopez\",\n  \"correo\": \"maria@ejemplo.cl\",\n  \"contrasena\": \"ClaveTemporal000\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usuarios",
+              "host": ["{{baseUrl}}"],
+              "path": ["usuarios"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Maria\",\n  \"apellido\": \"Lopez\",\n  \"correo\": \"maria@ejemplo.cl\",\n  \"estado\": \"INACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/{{usuarioId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["usuarios", "{{usuarioId}}"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/{{usuarioId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["usuarios", "{{usuarioId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Roles (GraphQL)",
+      "item": [
+        {
+          "name": "Query: listar roles",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query { roles { idRol nombre descripcion estado fechaCreacion } }\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            }
+          }
+        },
+        {
+          "name": "Query: obtener rol por ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query($id: Int!) { rol(id: $id) { idRol nombre descripcion estado fechaCreacion } }\",\n  \"variables\": { \"id\": {{rolId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            }
+          }
+        },
+        {
+          "name": "Mutation: crear rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation($nombre: String!, $descripcion: String, $estado: String) { crearRol(nombre: $nombre, descripcion: $descripcion, estado: $estado) { idRol nombre descripcion estado fechaCreacion } }\",\n  \"variables\": {\n    \"nombre\": \"AUDITOR\",\n    \"descripcion\": \"Revisa operaciones del sistema\",\n    \"estado\": \"ACTIVO\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            }
+          }
+        },
+        {
+          "name": "Mutation: actualizar rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation($id: Int!, $nombre: String!, $descripcion: String, $estado: String!) { actualizarRol(id: $id, nombre: $nombre, descripcion: $descripcion, estado: $estado) { idRol nombre descripcion estado fechaCreacion } }\",\n  \"variables\": {\n    \"id\": {{rolId}},\n    \"nombre\": \"AUDITOR\",\n    \"descripcion\": \"Revisa operaciones y reportes\",\n    \"estado\": \"INACTIVO\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            }
+          }
+        },
+        {
+          "name": "Mutation: eliminar rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation($id: Int!) { eliminarRol(id: $id) }\",\n  \"variables\": { \"id\": {{rolId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["roles"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permisos (REST)",
+      "item": [
+        {
+          "name": "Listar permisos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/permisos",
+              "host": ["{{baseUrl}}"],
+              "path": ["permisos"]
+            }
+          }
+        },
+        {
+          "name": "Obtener permiso por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/permisos/{{permisoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["permisos", "{{permisoId}}"]
+            }
+          }
+        },
+        {
+          "name": "Crear permiso",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"REPORTES_VER\",\n  \"descripcion\": \"Permite ver reportes del sistema\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/permisos",
+              "host": ["{{baseUrl}}"],
+              "path": ["permisos"]
+            }
+          }
+        },
+        {
+          "name": "Actualizar permiso",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"REPORTES_VER\",\n  \"descripcion\": \"Permite ver y exportar reportes\",\n  \"estado\": \"INACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/permisos/{{permisoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["permisos", "{{permisoId}}"]
+            }
+          }
+        },
+        {
+          "name": "Eliminar permiso",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/permisos/{{permisoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["permisos", "{{permisoId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Asignaciones (GraphQL)",
+      "item": [
+        {
+          "name": "Query: roles de un usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query($idUsuario: Int!) { rolesDeUsuario(idUsuario: $idUsuario) { idRol nombre estado } }\",\n  \"variables\": { \"idUsuario\": {{usuarioId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/asignaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["asignaciones"]
+            }
+          }
+        },
+        {
+          "name": "Query: permisos de un rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query($idRol: Int!) { permisosDeRol(idRol: $idRol) { idPermiso nombre estado } }\",\n  \"variables\": { \"idRol\": {{rolId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/asignaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["asignaciones"]
+            }
+          }
+        },
+        {
+          "name": "Mutation: asignar rol a usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation($idUsuario: Int!, $idRol: Int!) { asignarRolAUsuario(idUsuario: $idUsuario, idRol: $idRol) { idUsuario idRol fechaAsignacion } }\",\n  \"variables\": { \"idUsuario\": {{usuarioId}}, \"idRol\": {{rolId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/asignaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["asignaciones"]
+            }
+          }
+        },
+        {
+          "name": "Mutation: quitar rol a usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation($idUsuario: Int!, $idRol: Int!) { quitarRolAUsuario(idUsuario: $idUsuario, idRol: $idRol) }\",\n  \"variables\": { \"idUsuario\": {{usuarioId}}, \"idRol\": {{rolId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/asignaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["asignaciones"]
+            }
+          }
+        },
+        {
+          "name": "Mutation: asignar permiso a rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation($idRol: Int!, $idPermiso: Int!) { asignarPermisoARol(idRol: $idRol, idPermiso: $idPermiso) { idRol idPermiso fechaAsignacion } }\",\n  \"variables\": { \"idRol\": {{rolId}}, \"idPermiso\": {{permisoId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/asignaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["asignaciones"]
+            }
+          }
+        },
+        {
+          "name": "Mutation: quitar permiso a rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation($idRol: Int!, $idPermiso: Int!) { quitarPermisoARol(idRol: $idRol, idPermiso: $idPermiso) }\",\n  \"variables\": { \"idRol\": {{rolId}}, \"idPermiso\": {{permisoId}} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/asignaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["asignaciones"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -37,3 +37,6 @@ hs_err_pid*
 local.settings.json
 bin/
 obj/
+
+# Wallet de Oracle (credenciales/certificados, no debe subirse al repositorio)
+src/main/resources/wallet/
