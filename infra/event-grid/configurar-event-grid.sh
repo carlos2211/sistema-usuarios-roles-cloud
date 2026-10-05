@@ -19,12 +19,26 @@
 set -euo pipefail
 
 RESOURCE_GROUP="${RESOURCE_GROUP:-prueba_funcion}"
-LOCATION="${LOCATION:-eastus}"
 FUNCTION_APP="${FUNCTION_APP:-funcionusuariosroles1}"
 TOPIC="${TOPIC:-evt-usuarios-roles}"
 DEADLETTER_CONTAINER="${DEADLETTER_CONTAINER:-eventos-deadletter}"
 ROLES_CRITICOS="${ROLES_CRITICOS:-ADMINISTRADOR}"
 SEGURIDAD_CORREO="${SEGURIDAD_CORREO:-seguridad@empresa.cl}"
+
+echo "==> Suscripción activa: $(az account show --query name -o tsv)"
+
+if ! az functionapp show -g "$RESOURCE_GROUP" -n "$FUNCTION_APP" --query id -o tsv > /dev/null 2>&1; then
+  echo "No se encontró la Function App $FUNCTION_APP en el grupo $RESOURCE_GROUP de esta suscripción." >&2
+  echo "Revise 'az account list -o table' y seleccione la correcta con 'az account set --subscription <id>'." >&2
+  exit 1
+fi
+
+# Por defecto el topic se crea en la misma región de la Function App: las
+# suscripciones de estudiante solo permiten algunas regiones y esa ya está
+# permitida. Se puede forzar otra con LOCATION=<region>.
+LOCATION="${LOCATION:-$(az functionapp show -g "$RESOURCE_GROUP" -n "$FUNCTION_APP" --query location -o tsv)}"
+LOCATION=$(echo "$LOCATION" | tr -d ' ' | tr '[:upper:]' '[:lower:]')   # "Brazil South" -> "brazilsouth"
+echo "==> Región: $LOCATION"
 
 echo "==> 1/5 Registrando el proveedor Microsoft.EventGrid (solo la primera vez tarda)"
 az provider register --namespace Microsoft.EventGrid --wait

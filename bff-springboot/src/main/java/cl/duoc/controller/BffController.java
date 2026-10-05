@@ -152,12 +152,21 @@ public class BffController {
         try {
             // URI.create evita volver a codificar el query string, que ya
             // viene codificado desde el cliente.
-            return restTemplate.exchange(
+            ResponseEntity<String> respuesta = restTemplate.exchange(
                 URI.create(url),
                 method,
                 solicitud,
                 String.class
             );
+
+            // Solo se reenvía estado y cuerpo: copiar las cabeceras de
+            // transporte de Azure Functions (Transfer-Encoding, Server...)
+            // duplica Transfer-Encoding y el ingress de Azure Container
+            // Apps rechaza la respuesta como error de protocolo.
+            return ResponseEntity
+                .status(respuesta.getStatusCode())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(respuesta.getBody());
 
         } catch (HttpStatusCodeException error) {
             return ResponseEntity
