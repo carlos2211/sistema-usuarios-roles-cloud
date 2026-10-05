@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1120" viewBox="0 0 1900 1120" font-family="Segoe UI, Arial, sans-serif">
+<defs>
+  <pattern id="grilla" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0 L0 0 0 20" fill="none" stroke="#262626" stroke-width="1"/></pattern>
+  <marker id="pb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ffffff"/></marker>
+  <marker id="pn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f08a3c"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#1c1c1c"/><rect width="100%" height="100%" fill="url(#grilla)"/>
+<text x="40" y="52" font-size="22" font-weight="800" fill="#ffffff" text-anchor="start">SISTEMA DE GESTIÓN DE USUARIOS Y ROLES · SEMANA 8</text>
+<text x="40" y="78" font-size="15" font-weight="400" fill="#c9d1d9" text-anchor="start">Arquitectura orientada a eventos con Azure Event Grid · Grupo 19 · DSY2207</text>
+<rect x="40" y="250" width="200" height="86" fill="#1f8fd1" stroke="#7cc4f2" stroke-width="1.5"/>
+<text x="140" y="280" font-size="16" font-weight="600" fill="#ffffff" text-anchor="middle">CRUD</text>
+<text x="140" y="301" font-size="16" font-weight="600" fill="#ffffff" text-anchor="middle">SIST. GESTIÓN</text>
+<text x="140" y="322" font-size="16" font-weight="600" fill="#ffffff" text-anchor="middle">USUARIOS-ROLES</text>
+<g transform="translate(42,352)"><circle cx="24" cy="24" r="24" fill="#ef5b25"/>
+  <ellipse cx="24" cy="24" rx="15" ry="6" fill="none" stroke="#fff" stroke-width="2.2" transform="rotate(-35 24 24)"/>
+  <circle cx="28" cy="18" r="6" fill="#fff"/><path d="M16 33 l6 -6" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>
+<text x="104" y="383" font-size="20" font-weight="600" fill="#b9bec5" text-anchor="start">POSTMAN</text>
+<polygon points="0,-7 110,-7 110,-26 140,0 110,26 110,7 0,7" fill="#3a9ad9" stroke="#7cc4f2" stroke-width="1.5" transform="translate(250,300) rotate(0)"/>
+<text x="312" y="264" font-size="13" font-weight="600" fill="#7cc4f2" text-anchor="middle">HTTPS</text>
+<rect x="400" y="110" width="400" height="300" fill="#14302f" stroke="#3fb3a8" stroke-width="2"/>
+<rect x="400" y="110" width="400" height="34" fill="#3fb3a8" opacity="0.18"/>
+<g transform="translate(406,116)"><rect width="26" height="22" rx="3" fill="#3fb3a8" opacity="0.35"/>
+  <path d="M7 16 h12 a3.5 3.5 0 0 0 -1 -6.9 a5 5 0 0 0 -9.5 1.2 a3 3 0 0 0 -1.5 5.7 z" fill="none" stroke="#fff" stroke-width="1.6"/></g>
+<text x="440" y="134" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">AZURE CONTAINER APPS</text>
+<text x="790" y="134" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="end">bff-usuarios-roles</text>
+<g transform="translate(714,300)"><rect x="12" y="9" width="7.5" height="7.5" fill="#2496ed"/><rect x="21" y="9" width="7.5" height="7.5" fill="#2496ed"/><rect x="30" y="9" width="7.5" height="7.5" fill="#2496ed"/><rect x="21" y="0" width="7.5" height="7.5" fill="#2496ed"/><rect x="30" y="0" width="7.5" height="7.5" fill="#2496ed"/><rect x="39" y="9" width="7.5" height="7.5" fill="#2496ed"/>
+  <path d="M2 20 h56 c4 0 6 -4 9 -5 c-1 -3 -4 -4 -7 -3 c-2 -3 -5 -3 -6 -1 h-50 c0 9 5 17 18 17 c14 0 26 -3 32 -11" fill="none" stroke="#2496ed" stroke-width="2.4" stroke-linejoin="round"/>
+  <text x="34" y="52" font-size="14" font-weight="700" fill="#2496ed" text-anchor="middle">docker</text></g>
+<rect x="430" y="180" width="270" height="200" rx="12" fill="#101716" stroke="#8a9a98" stroke-width="1.5"/>
+<rect x="440" y="164" width="190" height="32" rx="5" fill="#2f8fe0"/>
+<text x="452" y="186" font-size="16" font-weight="600" fill="#ffffff" text-anchor="start">Contenedor Docker</text>
+<polygon points="559.8371685740842,308 520,331 480.16283142591584,308 480.1628314259158,262 520,239 559.8371685740842,262" fill="none" stroke="#e6e6e6" stroke-width="3"/>
+  <polygon points="520,261 542,273 520,285 498,273" fill="#9bd36a"/>
+  <polygon points="498,273 520,285 520,311 498,298" fill="#6fae3e"/>
+  <polygon points="542,273 520,285 520,311 542,298" fill="#84c450"/>
+<text x="580" y="268" font-size="17" font-weight="700" fill="#ffffff" text-anchor="start">BFF</text>
+<text x="580" y="290" font-size="14" font-weight="400" fill="#c9d1d9" text-anchor="start">Spring Boot</text>
+<text x="580" y="310" font-size="14" font-weight="400" fill="#c9d1d9" text-anchor="start">puerto 8080</text>
+<rect x="400" y="500" width="380" height="430" fill="#1d2740" stroke="#6c7fb0" stroke-width="2"/>
+<rect x="400" y="500" width="380" height="34" fill="#6c7fb0" opacity="0.18"/>
+<g transform="translate(406,506)"><rect width="26" height="22" rx="3" fill="#6c7fb0" opacity="0.35"/>
+  <path d="M7 16 h12 a3.5 3.5 0 0 0 -1 -6.9 a5 5 0 0 0 -9.5 1.2 a3 3 0 0 0 -1.5 5.7 z" fill="none" stroke="#fff" stroke-width="1.6"/></g>
+<text x="440" y="524" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">AZURE FUNCTIONS</text>
+<text x="770" y="524" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="end">HTTP trigger · Java 11</text>
+<text x="470" y="562" font-size="12" font-weight="700" fill="#c9d1d9" text-anchor="start">PRODUCTORES DE EVENTOS</text>
+<g transform="translate(470,582) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="518" y="598" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">USUARIOS</text>
+<text x="518" y="616" font-size="12.5" font-weight="400" fill="#ffb454" text-anchor="start">REST · publica Usuario.*</text>
+<g transform="translate(470,644) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="518" y="660" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">PERMISOS</text>
+<text x="518" y="678" font-size="12.5" font-weight="400" fill="#ffb454" text-anchor="start">REST · publica Permiso.*</text>
+<g transform="translate(470,706) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="518" y="722" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">ROLES</text>
+<text x="518" y="740" font-size="12.5" font-weight="400" fill="#ffb454" text-anchor="start">GraphQL · publica Rol.*</text>
+<g transform="translate(470,768) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="518" y="784" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">ASIGNACIONES</text>
+<text x="518" y="802" font-size="12.5" font-weight="400" fill="#ffb454" text-anchor="start">GraphQL · publica UsuarioRol.* / RolPermiso.*</text>
+<text x="470" y="845" font-size="12" font-weight="700" fill="#c9d1d9" text-anchor="start">CONSULTAS (nuevas)</text>
+<g transform="translate(470,860) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="518" y="876" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">AUDITORÍA · NOTIFICACIONES</text>
+<text x="518" y="894" font-size="12.5" font-weight="400" fill="#c9d1d9" text-anchor="start">GET /api/auditoria · GET /api/notificaciones</text>
+<path d="M565 380 L565 455 L370 455 L370 876" fill="none" stroke="#ffffff" stroke-width="2"/>
+<path d="M370 598 L464 598" fill="none" stroke="#ffffff" stroke-width="2" marker-end="url(#pb)"/>
+<path d="M370 660 L464 660" fill="none" stroke="#ffffff" stroke-width="2" marker-end="url(#pb)"/>
+<path d="M370 722 L464 722" fill="none" stroke="#ffffff" stroke-width="2" marker-end="url(#pb)"/>
+<path d="M370 784 L464 784" fill="none" stroke="#ffffff" stroke-width="2" marker-end="url(#pb)"/>
+<path d="M370 876 L464 876" fill="none" stroke="#ffffff" stroke-width="2" marker-end="url(#pb)"/>
+<text x="380" y="448" font-size="13" font-weight="600" fill="#c9d1d9" text-anchor="start">REST / GraphQL</text>
+<rect x="870" y="500" width="340" height="430" fill="#2b1f3d" stroke="#9b7fd1" stroke-width="2"/>
+<rect x="870" y="500" width="340" height="34" fill="#9b7fd1" opacity="0.18"/>
+<g transform="translate(876,506)"><rect width="26" height="22" rx="3" fill="#9b7fd1" opacity="0.35"/>
+  <path d="M7 16 h12 a3.5 3.5 0 0 0 -1 -6.9 a5 5 0 0 0 -9.5 1.2 a3 3 0 0 0 -1.5 5.7 z" fill="none" stroke="#fff" stroke-width="1.6"/></g>
+<text x="910" y="524" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">AZURE EVENT GRID</text>
+<text x="1200" y="524" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="end">Custom Topic</text>
+<line x1="930" y1="592" x2="900" y2="572" stroke="#b9a3ec" stroke-width="2.5"/><circle cx="900" cy="572" r="7" fill="#7d5fc7" stroke="#d6c8f5" stroke-width="2"/><line x1="930" y1="592" x2="960" y2="572" stroke="#b9a3ec" stroke-width="2.5"/><circle cx="960" cy="572" r="7" fill="#7d5fc7" stroke="#d6c8f5" stroke-width="2"/><line x1="930" y1="592" x2="900" y2="614" stroke="#b9a3ec" stroke-width="2.5"/><circle cx="900" cy="614" r="7" fill="#7d5fc7" stroke="#d6c8f5" stroke-width="2"/><line x1="930" y1="592" x2="960" y2="614" stroke="#b9a3ec" stroke-width="2.5"/><circle cx="960" cy="614" r="7" fill="#7d5fc7" stroke="#d6c8f5" stroke-width="2"/><circle cx="930" cy="592" r="13" fill="#9b7fd1" stroke="#fff" stroke-width="2.5"/>
+<text x="980" y="586" font-size="17" font-weight="700" fill="#ffffff" text-anchor="start">evt-usuarios-roles</text>
+<text x="980" y="606" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="start">reintentos 10 · TTL 24 h</text>
+<text x="894" y="658" font-size="12" font-weight="700" fill="#c9d1d9" text-anchor="start">SUSCRIPCIONES (filtro por tipo de evento)</text>
+<rect x="894" y="680" width="292" height="38" rx="5" fill="#1d152b" stroke="#6d5a96"/>
+<text x="906" y="697" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start">sub-auditoria</text>
+<text x="906" y="712" font-size="11.5" font-weight="400" fill="#c9d1d9" text-anchor="start">todos los eventos</text>
+<rect x="894" y="726" width="292" height="38" rx="5" fill="#1d152b" stroke="#6d5a96"/>
+<text x="906" y="743" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start">sub-notificaciones</text>
+<text x="906" y="758" font-size="11.5" font-weight="400" fill="#c9d1d9" text-anchor="start">Usuario.Creado/Desactivado, UsuarioRol.*, Alerta</text>
+<rect x="894" y="772" width="292" height="38" rx="5" fill="#1d152b" stroke="#6d5a96"/>
+<text x="906" y="789" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start">sub-seguridad</text>
+<text x="906" y="804" font-size="11.5" font-weight="400" fill="#c9d1d9" text-anchor="start">UsuarioRol.Asignado</text>
+<rect x="894" y="818" width="292" height="38" rx="5" fill="#1d152b" stroke="#6d5a96"/>
+<text x="906" y="835" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start">sub-desactivacion</text>
+<text x="906" y="850" font-size="11.5" font-weight="400" fill="#c9d1d9" text-anchor="start">Usuario.Desactivado</text>
+<g transform="translate(894,878)"><rect width="30" height="24" rx="3" fill="#3a6db5"/>
+  <rect x="4" y="5" width="9" height="6" fill="#9cc3f5"/><rect x="16" y="5" width="9" height="6" fill="#9cc3f5"/><rect x="4" y="14" width="9" height="6" fill="#9cc3f5"/><rect x="16" y="14" width="9" height="6" fill="#9cc3f5"/></g>
+<text x="934" y="890" font-size="14" font-weight="700" fill="#ffffff" text-anchor="start">Blob Storage · dead-letter</text>
+<text x="934" y="908" font-size="12.5" font-weight="400" fill="#c9d1d9" text-anchor="start">eventos no entregados</text>
+<polygon points="0,-7 46,-7 46,-26 76,0 46,26 46,7 0,7" fill="#3a9ad9" stroke="#7cc4f2" stroke-width="1.5" transform="translate(786,700) rotate(0)"/>
+<text x="816" y="664" font-size="13" font-weight="600" fill="#7cc4f2" text-anchor="middle">publica</text>
+<rect x="1300" y="500" width="560" height="430" fill="#1d2740" stroke="#6c7fb0" stroke-width="2"/>
+<rect x="1300" y="500" width="560" height="34" fill="#6c7fb0" opacity="0.18"/>
+<g transform="translate(1306,506)"><rect width="26" height="22" rx="3" fill="#6c7fb0" opacity="0.35"/>
+  <path d="M7 16 h12 a3.5 3.5 0 0 0 -1 -6.9 a5 5 0 0 0 -9.5 1.2 a3 3 0 0 0 -1.5 5.7 z" fill="none" stroke="#fff" stroke-width="1.6"/></g>
+<text x="1340" y="524" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">AZURE FUNCTIONS</text>
+<text x="1850" y="524" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="end">EventGridTrigger · Java 11</text>
+<g transform="translate(1328,574) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="1378" y="586" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">auditoria-eventos</text>
+<rect x="1544.4" y="572" width="94" height="20" rx="4" fill="#203b5a"/>
+<text x="1551.4" y="587" font-size="11" font-weight="700" fill="#9cc3f5" text-anchor="start">CONSUMIDOR</text>
+<text x="1378" y="608" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="start">guarda cada evento en AUDITORIA_EVENTOS</text>
+<g transform="translate(1328,656) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="1378" y="668" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">notificaciones-eventos</text>
+<rect x="1590.4" y="654" width="94" height="20" rx="4" fill="#203b5a"/>
+<text x="1597.4" y="669" font-size="11" font-weight="700" fill="#9cc3f5" text-anchor="start">CONSUMIDOR</text>
+<text x="1378" y="690" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="start">registra el aviso en NOTIFICACIONES</text>
+<g transform="translate(1328,738) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="1378" y="750" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">procesador-seguridad</text>
+<rect x="1572" y="736" width="94" height="20" rx="4" fill="#5a3417"/>
+<text x="1579" y="751" font-size="11" font-weight="700" fill="#ffb454" text-anchor="start">PROCESADOR</text>
+<text x="1378" y="772" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="start">rol crítico → publica Alerta.Seguridad</text>
+<g transform="translate(1328,820) scale(0.95)">
+  <path d="M8 4 L1 16 L8 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 4 L39 16 L32 28" fill="none" stroke="#5aa9e6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 1 L11 18 L19 18 L15 31 L29 12 L21 12 Z" fill="#f7c948" stroke="#d99a1a" stroke-width="1"/></g>
+<text x="1378" y="832" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">procesador-desactivacion</text>
+<rect x="1608.8" y="818" width="94" height="20" rx="4" fill="#5a3417"/>
+<text x="1615.8" y="833" font-size="11" font-weight="700" fill="#ffb454" text-anchor="start">PROCESADOR</text>
+<text x="1378" y="854" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="start">quita los roles → publica UsuarioRol.Revocado</text>
+<polygon points="0,-7 46,-7 46,-26 76,0 46,26 46,7 0,7" fill="#3a9ad9" stroke="#7cc4f2" stroke-width="1.5" transform="translate(1216,700) rotate(0)"/>
+<text x="1246" y="664" font-size="13" font-weight="600" fill="#7cc4f2" text-anchor="middle">entrega</text>
+<path d="M1320 784 L1218 784" fill="none" stroke="#f08a3c" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#pn)"/>
+<path d="M1320 866 L1218 866" fill="none" stroke="#f08a3c" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#pn)"/>
+<text x="1255" y="758" font-size="12" font-weight="600" fill="#f08a3c" text-anchor="middle">eventos</text>
+<text x="1255" y="773" font-size="12" font-weight="600" fill="#f08a3c" text-anchor="middle">nuevos</text>
+<rect x="400" y="990" width="1460" height="112" fill="#3a1d1d" stroke="#c0605a" stroke-width="2"/>
+<rect x="400" y="990" width="1460" height="34" fill="#c0605a" opacity="0.18"/>
+<g transform="translate(406,996)"><rect width="26" height="22" rx="3" fill="#c0605a" opacity="0.35"/>
+  <path d="M7 16 h12 a3.5 3.5 0 0 0 -1 -6.9 a5 5 0 0 0 -9.5 1.2 a3 3 0 0 0 -1.5 5.7 z" fill="none" stroke="#fff" stroke-width="1.6"/></g>
+<text x="440" y="1014" font-size="16" font-weight="700" fill="#ffffff" text-anchor="start">ORACLE AUTONOMOUS DATABASE</text>
+<text x="1850" y="1014" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="end">usuariosroles · OCI Always Free</text>
+<g transform="translate(422,1030)"><rect width="58" height="70" rx="10" fill="none" stroke="#f08ccf" stroke-width="2.5"/>
+  <text x="29" y="20" font-size="13" font-weight="700" fill="#f08ccf" text-anchor="middle">Oracle</text>
+  <ellipse cx="38" cy="36" rx="13" ry="5" fill="none" stroke="#f08ccf" stroke-width="2"/>
+  <path d="M25 36 v18 a13 5 0 0 0 26 0 v-18" fill="none" stroke="#f08ccf" stroke-width="2"/>
+  <path d="M25 45 a13 5 0 0 0 26 0" fill="none" stroke="#f08ccf" stroke-width="2"/></g>
+<text x="500" y="1056" font-size="15" font-weight="700" fill="#ffffff" text-anchor="start">TABLAS:</text>
+<text x="582" y="1056" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">-USUARIOS</text>
+<text x="692.8" y="1056" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">-ROLES</text>
+<text x="774.8" y="1056" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">-USUARIOS_ROLES</text>
+<text x="943.1999999999999" y="1056" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">-PERMISOS</text>
+<text x="1054" y="1056" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">-ROLES_PERMISOS</text>
+<text x="1222.4" y="1056" font-size="15" font-weight="700" fill="#ffb454" text-anchor="start">-AUDITORIA_EVENTOS</text>
+<text x="1419.6000000000001" y="1056" font-size="15" font-weight="700" fill="#ffb454" text-anchor="start">-NOTIFICACIONES</text>
+<text x="500" y="1084" font-size="12.5" font-weight="400" fill="#c9d1d9" text-anchor="start">En naranja: tablas nuevas de la Semana 8 (event store y bandeja de notificaciones).</text>
+<polygon points="0,-7 20,-7 20,-26 50,0 20,26 20,7 0,7" fill="#3a9ad9" stroke="#7cc4f2" stroke-width="1.5" transform="translate(590,934) rotate(90)"/>
+<text x="624" y="964" font-size="13" font-weight="600" fill="#7cc4f2" text-anchor="start">JDBC</text>
+<polygon points="0,-7 20,-7 20,-26 50,0 20,26 20,7 0,7" fill="#3a9ad9" stroke="#7cc4f2" stroke-width="1.5" transform="translate(1580,934) rotate(90)"/>
+<text x="1614" y="964" font-size="13" font-weight="600" fill="#7cc4f2" text-anchor="start">JDBC</text>
+<rect x="870" y="130" width="990" height="210" fill="#222" stroke="#444"/>
+<text x="890" y="158" font-size="13" font-weight="700" fill="#c9d1d9" text-anchor="start">FLUJO</text>
+<text x="890" y="186" font-size="14" font-weight="400" fill="#ffffff" text-anchor="start">1. Postman llama al BFF, que reenvía a la Azure Function (REST o GraphQL).</text>
+<text x="890" y="210" font-size="14" font-weight="400" fill="#ffffff" text-anchor="start">2. La función guarda el cambio en Oracle y publica un evento en Event Grid.</text>
+<text x="890" y="234" font-size="14" font-weight="400" fill="#ffffff" text-anchor="start">3. Event Grid entrega el evento a cada función suscrita, según su filtro.</text>
+<text x="890" y="258" font-size="14" font-weight="400" fill="#ffffff" text-anchor="start">4. Los consumidores guardan auditoría y notificaciones; los procesadores publican eventos nuevos.</text>
+<text x="890" y="282" font-size="14" font-weight="400" fill="#ffffff" text-anchor="start">5. Si una entrega falla 10 veces, el evento queda en dead-letter (Blob Storage).</text>
+<polygon points="890,320 930,320 930,312 946,324 930,336 930,328 890,328" fill="#3a9ad9"/>
+<text x="956" y="329" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="start">llamada / flujo principal</text>
+<line x1="1170" y1="324" x2="1220" y2="324" stroke="#f08a3c" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="1230" y="329" font-size="13" font-weight="400" fill="#c9d1d9" text-anchor="start">evento nuevo de un procesador</text>
+<text x="1470" y="329" font-size="13" font-weight="400" fill="#ffb454" text-anchor="start">naranja = nuevo en Semana 8</text>
+</svg>
