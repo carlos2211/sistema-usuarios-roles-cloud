@@ -1,0 +1,2 @@
+# Los scripts de shell se ejecutan en Linux (Azure Cloud Shell): siempre LF
+*.sh text eol=lf

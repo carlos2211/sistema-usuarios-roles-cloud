@@ -11,6 +11,9 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import cl.duoc.usuariosroles.eventos.EventGridPublisher;
+import cl.duoc.usuariosroles.eventos.TiposEvento;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -176,17 +179,31 @@ public class PermisosFunction {
         String sql = "INSERT INTO PERMISOS (NOMBRE, DESCRIPCION, ESTADO) " +
                 "VALUES (?, ?, ?)";
 
+        int idPermiso;
+
         try (
                 Connection connection = OracleConnection.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(
+                        sql, new String[] { "ID_PERMISO" })) {
             statement.setString(1, nombre);
             statement.setString(2, descripcion);
             statement.setString(3, estado);
             statement.executeUpdate();
+
+            try (ResultSet claves = statement.getGeneratedKeys()) {
+                claves.next();
+                idPermiso = claves.getInt(1);
+            }
         }
+
+        EventGridPublisher.publicar(
+                TiposEvento.PERMISO_CREADO,
+                TiposEvento.subjectPermiso(idPermiso),
+                datosEvento(idPermiso, nombre, descripcion, estado));
 
         Map<String, Object> resultado = new LinkedHashMap<>();
         resultado.put("mensaje", "Permiso creado correctamente");
+        resultado.put("idPermiso", idPermiso);
         resultado.put("nombre", nombre);
 
         return respuesta(
@@ -234,6 +251,11 @@ public class PermisosFunction {
                     mensaje("Permiso no encontrado"));
         }
 
+        EventGridPublisher.publicar(
+                TiposEvento.PERMISO_ACTUALIZADO,
+                TiposEvento.subjectPermiso(id),
+                datosEvento(id, nombre, descripcion, estado));
+
         return respuesta(
                 request,
                 HttpStatus.OK,
@@ -262,10 +284,32 @@ public class PermisosFunction {
                     mensaje("Permiso no encontrado"));
         }
 
+        Map<String, Object> datos = new LinkedHashMap<>();
+        datos.put("idPermiso", id);
+
+        EventGridPublisher.publicar(
+                TiposEvento.PERMISO_ELIMINADO,
+                TiposEvento.subjectPermiso(id),
+                datos);
+
         return respuesta(
                 request,
                 HttpStatus.OK,
                 mensaje("Permiso eliminado correctamente"));
+    }
+
+    private Map<String, Object> datosEvento(
+            int idPermiso,
+            String nombre,
+            String descripcion,
+            String estado) {
+
+        Map<String, Object> datos = new LinkedHashMap<>();
+        datos.put("idPermiso", idPermiso);
+        datos.put("nombre", nombre);
+        datos.put("descripcion", descripcion);
+        datos.put("estado", estado);
+        return datos;
     }
 
     private Map<String, Object> mapearPermiso(

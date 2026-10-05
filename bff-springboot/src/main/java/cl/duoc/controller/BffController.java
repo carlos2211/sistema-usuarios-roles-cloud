@@ -1,5 +1,9 @@
 package cl.duoc.controller;
 
+import java.net.URI;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -92,16 +96,51 @@ public class BffController {
         return reenviar("asignaciones", null, body, HttpMethod.POST);
     }
 
+    // Consultas sobre lo que registran los consumidores de eventos
+    // (Event Grid). Se reenvían los filtros del query string, por ejemplo
+    // /api/auditoria?subject=usuarios/5
+    @RequestMapping(
+        value = "/api/auditoria",
+        method = org.springframework.web.bind.annotation.RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<String> auditoria(HttpServletRequest request) {
+        return reenviar("auditoria", null, null, HttpMethod.GET, request.getQueryString());
+    }
+
+    @RequestMapping(
+        value = "/api/notificaciones",
+        method = org.springframework.web.bind.annotation.RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<String> notificaciones(HttpServletRequest request) {
+        return reenviar("notificaciones", null, null, HttpMethod.GET, request.getQueryString());
+    }
+
     private ResponseEntity<String> reenviar(
         String recurso,
         String id,
         String body,
         HttpMethod method
     ) {
+        return reenviar(recurso, id, body, method, null);
+    }
+
+    private ResponseEntity<String> reenviar(
+        String recurso,
+        String id,
+        String body,
+        HttpMethod method,
+        String queryString
+    ) {
         String url = functionsBaseUrl + "/" + recurso;
 
         if (id != null && !id.isBlank()) {
             url += "/" + id;
+        }
+
+        if (queryString != null && !queryString.isBlank()) {
+            url += "?" + queryString;
         }
 
         HttpHeaders headers = new HttpHeaders();
@@ -111,8 +150,10 @@ public class BffController {
             new HttpEntity<>(body, headers);
 
         try {
+            // URI.create evita volver a codificar el query string, que ya
+            // viene codificado desde el cliente.
             return restTemplate.exchange(
-                url,
+                URI.create(url),
                 method,
                 solicitud,
                 String.class

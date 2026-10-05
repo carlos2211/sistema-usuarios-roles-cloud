@@ -11,6 +11,9 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import cl.duoc.usuariosroles.eventos.EventGridPublisher;
+import cl.duoc.usuariosroles.eventos.TiposEvento;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -174,19 +177,33 @@ public class UsuariosFunction {
                 "(NOMBRE, APELLIDO, CORREO, CONTRASENA, ESTADO) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
+        int idUsuario;
+
         try (
                 Connection connection = OracleConnection.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(
+                        sql, new String[] { "ID_USUARIO" })) {
             statement.setString(1, nombre);
             statement.setString(2, apellido);
             statement.setString(3, correo.toLowerCase());
             statement.setString(4, contrasena);
             statement.setString(5, estado);
             statement.executeUpdate();
+
+            try (ResultSet claves = statement.getGeneratedKeys()) {
+                claves.next();
+                idUsuario = claves.getInt(1);
+            }
         }
+
+        EventGridPublisher.publicar(
+                TiposEvento.USUARIO_CREADO,
+                TiposEvento.subjectUsuario(idUsuario),
+                datosEvento(idUsuario, nombre, apellido, correo.toLowerCase(), estado));
 
         Map<String, Object> resultado = new LinkedHashMap<>();
         resultado.put("mensaje", "Usuario creado correctamente");
+        resultado.put("idUsuario", idUsuario);
         resultado.put("correo", correo.toLowerCase());
 
         return respuesta(
@@ -208,30 +225,53 @@ public class UsuariosFunction {
 
         validarEstado(estado);
 
+        String sqlEstadoAnterior =
+                "SELECT ESTADO FROM USUARIOS WHERE ID_USUARIO = ?";
+
         String sql = "UPDATE USUARIOS SET " +
                 "NOMBRE = ?, APELLIDO = ?, CORREO = ?, ESTADO = ? " +
                 "WHERE ID_USUARIO = ?";
 
-        int filas;
+        String estadoAnterior;
 
-        try (
-                Connection connection = OracleConnection.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, nombre);
-            statement.setString(2, apellido);
-            statement.setString(3, correo.toLowerCase());
-            statement.setString(4, estado);
-            statement.setInt(5, id);
+        try (Connection connection = OracleConnection.getConnection()) {
+            try (PreparedStatement statement =
+                    connection.prepareStatement(sqlEstadoAnterior)) {
+                statement.setInt(1, id);
 
-            filas = statement.executeUpdate();
+                try (ResultSet result = statement.executeQuery()) {
+                    if (!result.next()) {
+                        return respuesta(
+                                request,
+                                HttpStatus.NOT_FOUND,
+                                mensaje("Usuario no encontrado"));
+                    }
+
+                    estadoAnterior = result.getString("ESTADO");
+                }
+            }
+
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, nombre);
+                statement.setString(2, apellido);
+                statement.setString(3, correo.toLowerCase());
+                statement.setString(4, estado);
+                statement.setInt(5, id);
+                statement.executeUpdate();
+            }
         }
 
-        if (filas == 0) {
-            return respuesta(
-                    request,
-                    HttpStatus.NOT_FOUND,
-                    mensaje("Usuario no encontrado"));
-        }
+        Map<String, Object> datos = datosEvento(
+                id, nombre, apellido, correo.toLowerCase(), estado);
+        datos.put("estadoAnterior", estadoAnterior);
+
+        // Pasar de ACTIVO a INACTIVO es una desactivación (desvinculación):
+        // dispara la revocación de roles y el aviso al usuario.
+        String tipo = "ACTIVO".equals(estadoAnterior) && "INACTIVO".equals(estado)
+                ? TiposEvento.USUARIO_DESACTIVADO
+                : TiposEvento.USUARIO_ACTUALIZADO;
+
+        EventGridPublisher.publicar(tipo, TiposEvento.subjectUsuario(id), datos);
 
         return respuesta(
                 request,
@@ -261,10 +301,38 @@ public class UsuariosFunction {
                     mensaje("Usuario no encontrado"));
         }
 
+        Map<String, Object> datos = new LinkedHashMap<>();
+        datos.put("idUsuario", id);
+
+        EventGridPublisher.publicar(
+                TiposEvento.USUARIO_ELIMINADO,
+                TiposEvento.subjectUsuario(id),
+                datos);
+
         return respuesta(
                 request,
                 HttpStatus.OK,
                 mensaje("Usuario eliminado correctamente"));
+    }
+
+    /**
+     * Datos del usuario que viajan en los eventos. Nunca incluye la
+     * contraseña.
+     */
+    private Map<String, Object> datosEvento(
+            int idUsuario,
+            String nombre,
+            String apellido,
+            String correo,
+            String estado) {
+
+        Map<String, Object> datos = new LinkedHashMap<>();
+        datos.put("idUsuario", idUsuario);
+        datos.put("nombre", nombre);
+        datos.put("apellido", apellido);
+        datos.put("correo", correo);
+        datos.put("estado", estado);
+        return datos;
     }
 
     private Map<String, Object> mapearUsuario(

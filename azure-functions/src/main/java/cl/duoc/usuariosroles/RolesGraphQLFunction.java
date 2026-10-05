@@ -11,6 +11,9 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import cl.duoc.usuariosroles.eventos.EventGridPublisher;
+import cl.duoc.usuariosroles.eventos.TiposEvento;
+
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
@@ -184,7 +187,14 @@ public class RolesGraphQLFunction {
                 throw traducirError(error, "Ya existe un rol con ese nombre");
             }
 
-            return obtenerPorNombre(nombre);
+            Map<String, Object> rol = obtenerPorNombre(nombre);
+
+            EventGridPublisher.publicar(
+                    TiposEvento.ROL_CREADO,
+                    TiposEvento.subjectRol((Integer) rol.get("idRol")),
+                    rol);
+
+            return rol;
         };
     }
 
@@ -220,7 +230,14 @@ public class RolesGraphQLFunction {
                 throw new IllegalArgumentException("Rol no encontrado");
             }
 
-            return obtenerPorId(id);
+            Map<String, Object> rol = obtenerPorId(id);
+
+            EventGridPublisher.publicar(
+                    TiposEvento.ROL_ACTUALIZADO,
+                    TiposEvento.subjectRol(id),
+                    rol);
+
+            return rol;
         };
     }
 
@@ -237,6 +254,16 @@ public class RolesGraphQLFunction {
                     PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setInt(1, id);
                 filas = statement.executeUpdate();
+            }
+
+            if (filas > 0) {
+                Map<String, Object> datos = new LinkedHashMap<>();
+                datos.put("idRol", id);
+
+                EventGridPublisher.publicar(
+                        TiposEvento.ROL_ELIMINADO,
+                        TiposEvento.subjectRol(id),
+                        datos);
             }
 
             return filas > 0;

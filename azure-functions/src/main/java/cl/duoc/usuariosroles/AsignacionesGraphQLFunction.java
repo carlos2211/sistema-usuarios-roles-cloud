@@ -11,6 +11,9 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import cl.duoc.usuariosroles.eventos.EventGridPublisher;
+import cl.duoc.usuariosroles.eventos.TiposEvento;
+
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
@@ -215,7 +218,14 @@ public class AsignacionesGraphQLFunction {
                 throw traducirErrorAsignacion(error, "El usuario ya tiene asignado ese rol");
             }
 
-            return obtenerAsignacionUsuarioRol(idUsuario, idRol);
+            Map<String, Object> asignacion = obtenerAsignacionUsuarioRol(idUsuario, idRol);
+
+            EventGridPublisher.publicar(
+                    TiposEvento.USUARIO_ROL_ASIGNADO,
+                    TiposEvento.subjectUsuario(idUsuario),
+                    asignacion);
+
+            return asignacion;
         };
     }
 
@@ -234,6 +244,18 @@ public class AsignacionesGraphQLFunction {
                 statement.setInt(1, idUsuario);
                 statement.setInt(2, idRol);
                 filas = statement.executeUpdate();
+            }
+
+            if (filas > 0) {
+                Map<String, Object> datos = new LinkedHashMap<>();
+                datos.put("idUsuario", idUsuario);
+                datos.put("idRol", idRol);
+                datos.put("motivo", "MANUAL");
+
+                EventGridPublisher.publicar(
+                        TiposEvento.USUARIO_ROL_REVOCADO,
+                        TiposEvento.subjectUsuario(idUsuario),
+                        datos);
             }
 
             return filas > 0;
@@ -258,7 +280,14 @@ public class AsignacionesGraphQLFunction {
                 throw traducirErrorAsignacion(error, "El rol ya tiene asignado ese permiso");
             }
 
-            return obtenerAsignacionRolPermiso(idRol, idPermiso);
+            Map<String, Object> asignacion = obtenerAsignacionRolPermiso(idRol, idPermiso);
+
+            EventGridPublisher.publicar(
+                    TiposEvento.ROL_PERMISO_ASIGNADO,
+                    TiposEvento.subjectRol(idRol),
+                    asignacion);
+
+            return asignacion;
         };
     }
 
@@ -277,6 +306,17 @@ public class AsignacionesGraphQLFunction {
                 statement.setInt(1, idRol);
                 statement.setInt(2, idPermiso);
                 filas = statement.executeUpdate();
+            }
+
+            if (filas > 0) {
+                Map<String, Object> datos = new LinkedHashMap<>();
+                datos.put("idRol", idRol);
+                datos.put("idPermiso", idPermiso);
+
+                EventGridPublisher.publicar(
+                        TiposEvento.ROL_PERMISO_REVOCADO,
+                        TiposEvento.subjectRol(idRol),
+                        datos);
             }
 
             return filas > 0;
