@@ -245,6 +245,14 @@ public class RolesGraphQLFunction {
         return entorno -> {
             int id = entorno.getArgument("id");
 
+            // Se lee antes de borrar para que el evento lleve el nombre del
+            // rol: los consumidores ya no podrán consultarlo en Oracle.
+            Map<String, Object> rol = obtenerPorId(id);
+
+            if (rol == null) {
+                return false;
+            }
+
             String sql = "DELETE FROM ROLES WHERE ID_ROL = ?";
 
             int filas;
@@ -256,14 +264,14 @@ public class RolesGraphQLFunction {
                 filas = statement.executeUpdate();
             }
 
+            // Las asignaciones de este rol a usuarios (USUARIOS_ROLES) no se
+            // borran aquí: lo hace la función procesador-rol-eliminado al
+            // recibir este evento.
             if (filas > 0) {
-                Map<String, Object> datos = new LinkedHashMap<>();
-                datos.put("idRol", id);
-
                 EventGridPublisher.publicar(
                         TiposEvento.ROL_ELIMINADO,
                         TiposEvento.subjectRol(id),
-                        datos);
+                        rol);
             }
 
             return filas > 0;

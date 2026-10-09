@@ -11,6 +11,7 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import cl.duoc.usuariosroles.eventos.Directorio;
 import cl.duoc.usuariosroles.eventos.EventGridPublisher;
 import cl.duoc.usuariosroles.eventos.TiposEvento;
 
@@ -207,12 +208,19 @@ public class AsignacionesGraphQLFunction {
 
             String sql = "INSERT INTO USUARIOS_ROLES (ID_USUARIO, ID_ROL) VALUES (?, ?)";
 
-            try (
-                    Connection connection = OracleConnection.getConnection();
-                    PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, idUsuario);
-                statement.setInt(2, idRol);
-                statement.executeUpdate();
+            try (Connection connection = OracleConnection.getConnection()) {
+                // USUARIOS_ROLES ya no tiene llave foránea hacia ROLES (la
+                // limpieza al eliminar un rol la hace un procesador de
+                // eventos), así que la existencia del rol se valida aquí.
+                if (Directorio.oracle(connection).nombreRol(idRol) == null) {
+                    throw new IllegalArgumentException("El rol indicado no existe");
+                }
+
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setInt(1, idUsuario);
+                    statement.setInt(2, idRol);
+                    statement.executeUpdate();
+                }
 
             } catch (SQLException error) {
                 throw traducirErrorAsignacion(error, "El usuario ya tiene asignado ese rol");

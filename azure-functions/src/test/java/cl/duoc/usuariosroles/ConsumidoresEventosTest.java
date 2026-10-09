@@ -94,6 +94,38 @@ class ConsumidoresEventosTest {
     }
 
     @Test
+    void rolPorDefectoAvisaQueFueAutomatico() throws Exception {
+        NotificacionesEventosFunction.Notificacion aviso = NotificacionesEventosFunction.construir(
+            evento("UsuarioRol.Asignado", "{\"idUsuario\":5,\"idRol\":2,\"motivo\":\"ROL_POR_DEFECTO\"}"),
+            DIRECTORIO,
+            "seguridad@empresa.cl");
+
+        assertEquals("Se te asignó el rol SUPERVISOR", aviso.asunto);
+        assertTrue(aviso.mensaje.contains("automáticamente"));
+    }
+
+    @Test
+    void rolEliminadoUsaElNombreQueTraeElEvento() throws Exception {
+        // El rol 9 ya no existe en Oracle: el nombre debe salir del evento.
+        NotificacionesEventosFunction.Notificacion aviso = NotificacionesEventosFunction.construir(
+            evento("UsuarioRol.Revocado",
+                "{\"idUsuario\":5,\"idRol\":9,\"nombreRol\":\"TEMPORAL\",\"motivo\":\"ROL_ELIMINADO\"}"),
+            DIRECTORIO,
+            "seguridad@empresa.cl");
+
+        assertEquals("ana@empresa.cl", aviso.destinatario);
+        assertEquals("Se te quitó el rol TEMPORAL", aviso.asunto);
+        assertTrue(aviso.mensaje.contains("fue eliminado del sistema"));
+    }
+
+    @Test
+    void nombreDelRolPorDefecto() {
+        assertEquals("USUARIO", ProcesadorRolPorDefectoFunction.nombreRolPorDefecto(null));
+        assertEquals("USUARIO", ProcesadorRolPorDefectoFunction.nombreRolPorDefecto("  "));
+        assertEquals("INVITADO", ProcesadorRolPorDefectoFunction.nombreRolPorDefecto(" invitado "));
+    }
+
+    @Test
     void rolesCriticosPorDefectoYConfigurados() {
         Set<String> porDefecto = ProcesadorSeguridadFunction.rolesCriticos(null);
         assertTrue(ProcesadorSeguridadFunction.esCritico("administrador", porDefecto));

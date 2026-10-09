@@ -96,7 +96,7 @@ public class NotificacionesEventosFunction {
                         evento.texto("correo"),
                         "Bienvenido/a al Sistema de Gestión de Usuarios y Roles",
                         "Hola " + evento.texto("nombre") + ", tu cuenta " + evento.texto("correo")
-                                + " fue creada. Un administrador te asignará los roles que necesitas.");
+                                + " fue creada. En unos segundos recibirás el rol básico del sistema.");
 
             case TiposEvento.USUARIO_DESACTIVADO:
                 return new Notificacion(
@@ -133,21 +133,36 @@ public class NotificacionesEventosFunction {
         }
 
         Directorio.Persona persona = busqueda.usuario(evento.entero("idUsuario"));
+
+        // Si el rol fue eliminado ya no está en Oracle: se usa el nombre que
+        // trae el evento.
         String rol = busqueda.nombreRol(evento.entero("idRol"));
+        if (rol == null) {
+            rol = evento.texto("nombreRol");
+        }
 
         if (persona == null || rol == null) {
             return null;
         }
 
-        return asignado
-                ? new Notificacion(
-                        persona.getCorreo(),
-                        "Se te asignó el rol " + rol,
-                        "Hola " + persona.getNombre() + ", desde ahora tienes el rol " + rol + ".")
-                : new Notificacion(
-                        persona.getCorreo(),
-                        "Se te quitó el rol " + rol,
-                        "Hola " + persona.getNombre() + ", ya no tienes el rol " + rol + ".");
+        String motivo = evento.texto("motivo");
+        String hola = "Hola " + persona.getNombre() + ", ";
+
+        if (asignado) {
+            return new Notificacion(
+                    persona.getCorreo(),
+                    "Se te asignó el rol " + rol,
+                    "ROL_POR_DEFECTO".equals(motivo)
+                            ? hola + "se te asignó automáticamente el rol " + rol + ", que tienen todas las cuentas nuevas."
+                            : hola + "desde ahora tienes el rol " + rol + ".");
+        }
+
+        return new Notificacion(
+                persona.getCorreo(),
+                "Se te quitó el rol " + rol,
+                "ROL_ELIMINADO".equals(motivo)
+                        ? hola + "ya no tienes el rol " + rol + " porque fue eliminado del sistema."
+                        : hola + "ya no tienes el rol " + rol + ".");
     }
 
     private static String correoSeguridad() {

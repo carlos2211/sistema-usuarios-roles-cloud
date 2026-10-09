@@ -23,6 +23,7 @@ FUNCTION_APP="${FUNCTION_APP:-funcionusuariosroles1}"
 TOPIC="${TOPIC:-evt-usuarios-roles}"
 DEADLETTER_CONTAINER="${DEADLETTER_CONTAINER:-eventos-deadletter}"
 ROLES_CRITICOS="${ROLES_CRITICOS:-ADMINISTRADOR}"
+ROL_POR_DEFECTO="${ROL_POR_DEFECTO:-USUARIO}"
 SEGURIDAD_CORREO="${SEGURIDAD_CORREO:-seguridad@empresa.cl}"
 
 echo "==> Suscripción activa: $(az account show --query name -o tsv)"
@@ -63,6 +64,7 @@ az functionapp config appsettings set \
     "EVENTGRID_TOPIC_ENDPOINT=$TOPIC_ENDPOINT" \
     "EVENTGRID_TOPIC_KEY=$TOPIC_KEY" \
     "ROLES_CRITICOS=$ROLES_CRITICOS" \
+    "ROL_POR_DEFECTO=$ROL_POR_DEFECTO" \
     "SEGURIDAD_CORREO=$SEGURIDAD_CORREO" \
   --output none
 
@@ -122,6 +124,13 @@ suscribir sub-seguridad procesador-seguridad \
 
 suscribir sub-desactivacion procesador-desactivacion \
   Usuario.Desactivado
+
+# Semana 9: rol por defecto al crear un usuario y limpieza al eliminar un rol
+suscribir sub-rol-por-defecto procesador-rol-por-defecto \
+  Usuario.Creado
+
+suscribir sub-rol-eliminado procesador-rol-eliminado \
+  Rol.Eliminado
 
 echo
 az eventgrid event-subscription list --source-resource-id "$TOPIC_ID" \

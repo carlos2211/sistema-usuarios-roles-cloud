@@ -29,6 +29,8 @@ const SUSCRIPCIONES = [
   },
   { nombre: 'sub-seguridad', funcion: 'procesador-seguridad', tipos: ['UsuarioRol.Asignado'] },
   { nombre: 'sub-desactivacion', funcion: 'procesador-desactivacion', tipos: ['Usuario.Desactivado'] },
+  { nombre: 'sub-rol-por-defecto', funcion: 'procesador-rol-por-defecto', tipos: ['Usuario.Creado'] },
+  { nombre: 'sub-rol-eliminado', funcion: 'procesador-rol-eliminado', tipos: ['Rol.Eliminado'] },
 ];
 
 function hora() {
