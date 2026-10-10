@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libreto Video Final</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: hoja de rodaje (run-of-show) — una columna de lectura con escaleta, libreto con guiones por voz y anexos operativos */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --fg: #18202b;
+  --muted: #5a6677;
+  --line: #d9dfe7;
+  --carlos: #2463a6;
+  --carlos-soft: #e6eef8;
+  --alberto: #c4561a;
+  --alberto-soft: #fbece2;
+  --cue: #6b5b95;
+  --cue-soft: #efecf6;
+  --ok: #2f7d4f;
+  --warn: #a35a00;
+  --warn-soft: #fff4e2;
+  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --surface: #19202a; --fg: #e6ebf2; --muted: #9aa6b6; --line: #2c3644;
+    --carlos: #7fb2ea; --carlos-soft: #1c2b3d; --alberto: #f0995f; --alberto-soft: #352419;
+    --cue: #b6a7e0; --cue-soft: #252238; --ok: #6cc796; --warn: #f2b45a; --warn-soft: #33281a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --surface: #19202a; --fg: #e6ebf2; --muted: #9aa6b6; --line: #2c3644;
+  --carlos: #7fb2ea; --carlos-soft: #1c2b3d; --alberto: #f0995f; --alberto-soft: #352419;
+  --cue: #b6a7e0; --cue-soft: #252238; --ok: #6cc796; --warn: #f2b45a; --warn-soft: #33281a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 16px/1.6 var(--font-body);
+  padding-inline: 16px; padding-block: 0 64px;
+}
+.wrap { max-width: 860px; margin: 0 auto; display: grid; gap: 48px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 1.6rem; font-weight: 800; }
+h3 { font-size: 1.1rem; font-weight: 700; }
+p { margin: 0; }
+code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
+a { color: var(--carlos); }
+:focus-visible { outline: 2px solid var(--carlos); outline-offset: 2px; }
+
+.label { font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+/* Cabecera */
+header { padding-top: 40px; display: grid; gap: 14px; }
+header .sub { color: var(--muted); max-width: 62ch; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; font-size: 0.9rem; }
+.fact b { font-variant-numeric: tabular-nums; }
+
+/* Navegación */
+nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+  margin-inline: -16px; padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
+}
+nav a { color: var(--fg); text-decoration: none; font-size: 0.9rem; }
+nav a:hover { color: var(--carlos); }
+.vista { margin-left: auto; display: flex; gap: 4px; align-items: center; }
+.vista button {
+  font: 600 0.82rem var(--font-body); border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+  border-radius: 999px; padding: 4px 12px; cursor: pointer;
+}
+.vista button[aria-pressed="true"] { border-color: var(--fg); background: var(--fg); color: var(--bg); }
+
+section { display: grid; gap: 18px; scroll-margin-top: 64px; }
+.intro { color: var(--muted); max-width: 65ch; }
+
+/* Pills de voz */
+.who { display: inline-block; font: 700 0.72rem var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.who.c { background: var(--carlos-soft); color: var(--carlos); }
+.who.a { background: var(--alberto-soft); color: var(--alberto); }
+
+/* Escaleta */
+.tabla { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 700 0.72rem var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+td.tc { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Checklists */
+.checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.grupo { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.grupo ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.grupo label { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; cursor: pointer; font-size: 0.93rem; }
+.grupo input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--ok); }
+.grupo input:checked + span { color: var(--muted); text-decoration: line-through; }
+.aviso { background: var(--warn-soft); border-left: 4px solid var(--warn); border-radius: 0 8px 8px 0; padding: 14px 16px; display: grid; gap: 6px; }
+.aviso strong { color: var(--warn); }
+
+/* Pestañas */
+.pantallas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.pantalla { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.pantalla ol { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; font-size: 0.93rem; }
+.pantalla .cuando { color: var(--muted); font-size: 0.88rem; }
+
+/* Libreto */
+.bloque { display: grid; gap: 12px; padding-top: 6px; }
+.bloque-cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; border-bottom: 2px solid var(--fg); padding-bottom: 6px; }
+.bloque-cab .tc { font-family: var(--font-mono); font-size: 0.9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bloque-cab .comparte { margin-left: auto; font-size: 0.85rem; color: var(--muted); }
+.linea { display: grid; grid-template-columns: 82px 1fr; gap: 12px; align-items: start; }
+.linea p { max-width: 65ch; }
+.linea.c p { border-left: 3px solid var(--carlos); padding-left: 12px; }
+.linea.a p { border-left: 3px solid var(--alberto); padding-left: 12px; }
+.cue { display: grid; grid-template-columns: 82px 1fr; gap: 12px; color: var(--cue); font-size: 0.9rem; }
+.cue span:last-child { background: var(--cue-soft); border-radius: 6px; padding: 6px 10px; }
+.cue .label { color: var(--cue); padding-top: 7px; }
+body[data-solo="c"] .linea.a, body[data-solo="a"] .linea.c { opacity: 0.35; }
+
+/* Pruebas */
+.pasos { display: grid; gap: 10px; }
+.paso { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; grid-template-columns: 44px 1fr; gap: 4px 12px; min-width: 0; }
+.paso .n { font: 800 1.1rem var(--font-display); color: var(--muted); font-variant-numeric: tabular-nums; grid-row: span 3; }
+.paso .req { font-family: var(--font-mono); font-size: 0.84rem; overflow-wrap: anywhere; }
+.paso .req b { color: var(--carlos); font-weight: 500; }
+.paso .esp { font-size: 0.92rem; }
+.paso .esp::before { content: "Debe mostrar: "; color: var(--ok); font-weight: 600; }
+.copiar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn {
+  font: 600 0.92rem var(--font-body); background: var(--fg); color: var(--bg); border: 0; border-radius: 6px;
+  padding: 10px 16px; cursor: pointer;
+}
+.btn:active { transform: translateY(1px); }
+.estado { font-size: 0.9rem; color: var(--ok); }
+textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 10px; }
+
+/* Plan B */
+.fallas { display: grid; gap: 10px; }
+.falla { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 0.93rem; }
+.falla .sintoma { font-weight: 600; }
+
+@media (max-width: 600px) {
+  .linea, .cue { grid-template-columns: 1fr; gap: 4px; }
+  .falla { grid-template-columns: 1fr; }
+  .vista { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+.grupo code, .pantalla code, .paso code, .falla code { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="label">DSY2207 · Evaluación Final Transversal · Parte II individual</span>
+  <h1>Libreto del video final</h1>
+  <p class="sub">Guion, preparación y pruebas para presentar solo el Sistema de Gestión de Usuarios y Roles: arquitectura, código, despliegue en la nube y las dos reglas nuevas con eventos, funcionando en tiempo real.</p>
+  <div class="facts">
+    <span class="fact">Duración objetivo <b>9:45</b></span>
+    <span class="fact">Presentas <b>tú solo</b></span>
+    <span class="fact">Grabar con <b>Kaltura</b> (o Teams y subirlo)</span>
+  </div>
+</header>
+
+<nav aria-label="Secciones">
+  <a href="#escaleta">Escaleta</a>
+  <a href="#preparar">Antes de grabar</a>
+  <a href="#pantallas">Qué tener abierto</a>
+  <a href="#libreto">Libreto</a>
+  <a href="#pruebas">Pruebas</a>
+  <a href="#planb">Si algo falla</a>
+</nav>
+
+<section id="escaleta">
+  <h2>Escaleta</h2>
+  <p class="intro">La pauta da 20 puntos al video y pide mostrar en tiempo real todos los requisitos. Los bloques 5 y 6 son los que más pesan: no los recortes.</p>
+  <div class="tabla">
+    <table>
+      <thead><tr><th>Tiempo</th><th>Bloque</th><th>En pantalla</th><th>Criterio de la pauta</th></tr></thead>
+      <tbody>
+        <tr><td class="tc">0:00–0:30</td><td>1. Presentación</td><td>Diagrama</td><td>Video</td></tr>
+        <tr><td class="tc">0:30–2:00</td><td>2. Caso y arquitectura</td><td>Diagrama</td><td>Video · eventos</td></tr>
+        <tr><td class="tc">2:00–3:30</td><td>3. Código</td><td>VS Code</td><td>Spring Boot · FaaS · eventos</td></tr>
+        <tr><td class="tc">3:30–4:30</td><td>4. Despliegue en la nube</td><td>Portal Azure</td><td>Despliegue cloud</td></tr>
+        <tr><td class="tc">4:30–6:00</td><td>5. Requisito 1: rol por defecto</td><td>Postman · carpeta 1</td><td>Eventos · integración BFF</td></tr>
+        <tr><td class="tc">6:00–7:45</td><td>6. Requisito 2: rol eliminado</td><td>Postman · carpeta 2</td><td>Eventos · integración BFF</td></tr>
+        <tr><td class="tc">7:45–8:45</td><td>7. CRUD con REST y GraphQL</td><td>Postman · carpeta 3</td><td>FaaS REST y GraphQL</td></tr>
+        <tr><td class="tc">8:45–9:15</td><td>8. Evidencia en Azure</td><td>Portal Azure (métricas)</td><td>Eventos · despliegue</td></tr>
+        <tr><td class="tc">9:15–9:45</td><td>9. Git y cierre</td><td>GitHub</td><td>Git colaborativo</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="preparar">
+  <h2>Antes de grabar</h2>
+  <p class="intro">Las marcas quedan guardadas solo en este navegador.</p>
+  <div class="checks">
+    <div class="grupo">
+      <h3>El día antes</h3>
+      <ul>
+        <li><label><input type="checkbox" id="e-postman"><span>Importar en Postman <code>docs/semana9/EFT-usuarios-roles.postman_collection.json</code> (Import → File).</span></label></li>
+        <li><label><input type="checkbox" id="e-ensayo"><span>Un ensayo completo con cronómetro, siguiendo este libreto.</span></label></li>
+        <li><label><input type="checkbox" id="e-kaltura"><span>Revisar el instructivo de Kaltura de la guía de la semana y probar que graba pantalla y micrófono.</span></label></li>
+        <li><label><input type="checkbox" id="e-git"><span>Todo subido a GitHub. Los <code>.mp4</code> no van al repo.</span></label></li>
+      </ul>
+    </div>
+    <div class="grupo">
+      <h3>30 minutos antes</h3>
+      <ul>
+        <li><label><input type="checkbox" id="e-oracle"><span><b>Oracle encendida.</b> En OCI, la base <code>usuariosroles</code> debe estar <i>Available</i>. Se detiene sola tras 7 días sin uso.</span></label></li>
+        <li><label><input type="checkbox" id="e-calentar"><span>Ejecutar la carpeta <b>0 · Antes de grabar</b>. La primera llamada al BFF tarda unos 20 segundos; mejor que pase ahora.</span></label></li>
+        <li><label><input type="checkbox" id="e-pasada"><span>Correr las carpetas 1 y 2 una vez completas. Cada envío crea usuarios y roles nuevos, así que no hay choques.</span></label></li>
+        <li><label><input type="checkbox" id="e-portal"><span>Portal de Azure con la suscripción <b>Azure subscription 1</b> en el filtro, no la de estudiante.</span></label></li>
+        <li><label><input type="checkbox" id="e-metricas"><span>Dejar armado el gráfico de métricas del topic (ver "Qué tener abierto").</span></label></li>
+      </ul>
+    </div>
+    <div class="grupo">
+      <h3>Al empezar</h3>
+      <ul>
+        <li><label><input type="checkbox" id="e-notif"><span>Notificaciones silenciadas (Windows, Teams, WhatsApp).</span></label></li>
+        <li><label><input type="checkbox" id="e-zoom"><span>Zoom al 125 % en el navegador, VS Code y Postman.</span></label></li>
+        <li><label><input type="checkbox" id="e-pantalla"><span>Grabar <b>la pantalla completa</b>, no una ventana, para que se vea al cambiar de programa con Alt+Tab.</span></label></li>
+        <li><label><input type="checkbox" id="e-libreto"><span>Este libreto en el celular o en otra pantalla.</span></label></li>
+      </ul>
+    </div>
+  </div>
+  <div class="aviso" role="note">
+    <strong>No mostrar en cámara</strong>
+    <p><code>local.settings.json</code>, la carpeta <code>wallet</code>, <i>Environment variables</i> de la Function App con <i>Show values</i> ni <i>Access keys</i> del topic. Ahí están la contraseña de Oracle y la clave de Event Grid.</p>
+  </div>
+</section>
+
+<section id="pantallas">
+  <h2>Qué tener abierto</h2>
+  <p class="intro">En el orden en que se usa. Para pasar de un programa a otro: Alt+Tab.</p>
+  <div class="pantallas">
+    <div class="pantalla">
+      <h3>Primera parte · 0:00 – 3:30</h3>
+      <ol>
+        <li><b>Diagrama</b>: <code>docs/semana9/arquitectura-final.png</code> en el navegador.</li>
+        <li><b>VS Code</b>, pestañas en orden:
+          <ol>
+            <li><code>bff-springboot/…/BffController.java</code> · línea 35 y método <code>reenviar</code></li>
+            <li><code>UsuariosFunction.java</code> · línea 200</li>
+            <li><code>ProcesadorRolPorDefectoFunction.java</code> · líneas 35, 61 y 93</li>
+            <li><code>RolesGraphQLFunction.java</code> · líneas 250 y 272</li>
+            <li><code>ProcesadorRolEliminadoFunction.java</code> · líneas 46, 77 y 67</li>
+            <li><code>database/semana9_eventos.sql</code> · línea 18</li>
+          </ol>
+        </li>
+      </ol>
+      <p class="cuando">Ctrl+G en VS Code salta a una línea.</p>
+    </div>
+    <div class="pantalla">
+      <h3>Segunda parte · 3:30 – 9:45</h3>
+      <ol>
+        <li><b>Portal Azure</b> · grupo de recursos <code>prueba_funcion</code>.</li>
+        <li><b>Portal Azure</b> · topic <code>evt-usuarios-roles</code> → <i>Event Subscriptions</i>.</li>
+        <li><b>Portal Azure</b> · Function App <code>funcionusuariosroles1</code> → <i>Functions</i>.</li>
+        <li><b>Portal Azure</b> · Container App <code>bff-usuarios-roles</code> → <i>Overview</i> (URL de la aplicación).</li>
+        <li><b>Postman</b> · colección "EFT · Sistema de Gestión de Usuarios y Roles", respuestas en <i>Pretty</i>.</li>
+        <li><b>Portal Azure</b> · topic → <i>Metrics</i>: <i>Published Events</i> y <i>Matched Events</i>, últimos 30 minutos.</li>
+        <li><b>GitHub</b> · <code>github.com/carlos2211/sistema-usuarios-roles-cloud/commits</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="libreto">
+  <h2>Libreto</h2>
+  <p class="intro">Las líneas son una guía: dilas con tus palabras. En morado está lo que debe verse en pantalla.</p>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">0:00–0:30</span><h3>1. Presentación</h3><span class="comparte">Diagrama</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Hola, soy Carlos Orrego. Esta es la evaluación final de Desarrollo Cloud Native II. Voy a presentar el Sistema de Gestión de Usuarios y Roles: un backend en la nube con un BFF en Spring Boot, funciones serverless en Java con REST y GraphQL, y una arquitectura orientada a eventos con Azure Event Grid.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">0:30–2:00</span><h3>2. Caso y arquitectura</h3><span class="comparte">Diagrama</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>El sistema permite el CRUD de usuarios, roles y permisos, y tiene dos reglas que deben ocurrir automáticamente con eventos: cuando se crea un usuario, se le asigna un rol por defecto; y cuando se elimina un rol, se les quita a todos los usuarios que lo tenían.</p></div>
+    <div class="cue"><span class="label">Pantalla</span><span>Recorrer el diagrama con el mouse, de izquierda a derecha.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Postman llama al BFF en Spring Boot, que corre como contenedor Docker en Azure Container Apps. El BFF orquesta las funciones serverless: usuarios y permisos con REST, roles y asignaciones con GraphQL. Cada función guarda el cambio en Oracle y publica un evento en un topic de Azure Event Grid.</p></div>
+    <div class="cue"><span class="label">Pantalla</span><span>Señalar el recuadro de Event Grid y luego el de las funciones de la derecha (en verde, lo nuevo).</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Event Grid entrega cada evento a las funciones suscritas, según el filtro de cada suscripción. Para esta evaluación agregué dos procesadores, en verde: el de rol por defecto escucha Usuario.Creado, y el de rol eliminado escucha Rol.Eliminado. Los procesadores publican eventos nuevos, que son las flechas punteadas. Además, la auditoría guarda todos los eventos y las notificaciones avisan a cada usuario afectado.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">2:00–3:30</span><h3>3. Código</h3><span class="comparte">VS Code</span></div>
+    <div class="cue"><span class="label">Pantalla</span><span><code>BffController.java</code>, línea 35, y bajar al método <code>reenviar</code>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Este es el BFF en Spring Boot. Cada ruta reenvía la petición a la función serverless que corresponde y devuelve la respuesta en JSON.</p></div>
+    <div class="cue"><span class="label">Pantalla</span><span><code>UsuariosFunction.java</code>, línea 200 → <code>ProcesadorRolPorDefectoFunction.java</code>, líneas 35, 61 y 93.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Al crear un usuario, la función publica Usuario.Creado. Este procesador tiene la anotación EventGridTrigger, así que Azure lo ejecuta cuando llega ese evento. Busca el rol USUARIO, lo inserta en USUARIOS_ROLES y publica UsuarioRol.Asignado. Si Event Grid reintenta la entrega, no se duplica: el usuario ya tiene el rol y no hace nada.</p></div>
+    <div class="cue"><span class="label">Pantalla</span><span><code>RolesGraphQLFunction.java</code>, líneas 250 y 272 → <code>ProcesadorRolEliminadoFunction.java</code>, líneas 46, 77 y 67.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Al eliminar un rol, la función GraphQL lee su nombre, lo borra y publica Rol.Eliminado. El procesador de rol eliminado busca a los usuarios que lo tenían, borra esas asignaciones en una transacción y publica un UsuarioRol.Revocado por cada usuario.</p></div>
+    <div class="cue"><span class="label">Pantalla</span><span><code>semana9_eventos.sql</code>, línea 18.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Para que esa limpieza la haga el componente de eventos y no la base de datos, quité el borrado en cascada de la llave foránea. Es consistencia eventual: por un par de segundos pueden quedar asignaciones de un rol que ya no existe, pero no se ven, porque las consultas cruzan con la tabla de roles.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">3:30–4:30</span><h3>4. Despliegue en la nube</h3><span class="comparte">Portal Azure</span></div>
+    <div class="cue"><span class="label">Pantalla</span><span>Grupo de recursos <code>prueba_funcion</code>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Todo está desplegado en Azure: la Function App, el topic de Event Grid, la Container App del BFF y el storage para el dead-letter. La base de datos es Oracle Autonomous Database en OCI.</p></div>
+    <div class="cue"><span class="label">Pantalla</span><span>Topic → <i>Event Subscriptions</i>: mostrar las 6. Abrir <code>sub-rol-eliminado</code> → <i>Filters</i>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>El topic tiene seis suscripciones, cada una con su filtro. Por ejemplo, sub-rol-eliminado solo recibe Rol.Eliminado. Si una entrega falla, Event Grid reintenta hasta diez veces, y lo que no se puede entregar queda en dead-letter.</p></div>
+    <div class="cue"><span class="label">Pantalla</span><span>Function App → <i>Functions</i> (13). Luego Container App → <i>Overview</i>, señalar la URL.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>La Function App tiene trece funciones en Java: las HTTP con REST y GraphQL, y seis disparadas por Event Grid. Y esta es la URL pública del BFF, que es la que voy a usar en Postman.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">4:30–6:00</span><h3>5. Requisito 1: rol por defecto</h3><span class="comparte">Postman · carpeta 1</span></div>
+    <div class="cue"><span class="label">Prueba</span><span>Enviar <b>1.1 Crear usuario</b>. Esperar 3 segundos.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Creo un usuario a través del BFF. Fíjense que en el cuerpo no envío ningún rol. La API responde de inmediato con el id; lo demás ocurre de forma asíncrona.</p></div>
+    <div class="cue"><span class="label">Prueba</span><span><b>1.2 Roles del usuario</b> → debe mostrar <code>USUARIO</code>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Si consulto sus roles, ya tiene el rol USUARIO. Nadie se lo asignó a mano: lo hizo el procesador al recibir el evento.</p></div>
+    <div class="cue"><span class="label">Prueba</span><span><b>1.3 Auditoría</b> y <b>1.4 Notificaciones</b>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>En la auditoría se ve la cadena: primero Usuario.Creado, y luego UsuarioRol.Asignado con motivo ROL_POR_DEFECTO, cuyo eventoOrigen apunta al evento de creación. Y el usuario recibió la bienvenida y el aviso de que se le asignó el rol automáticamente.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">6:00–7:45</span><h3>6. Requisito 2: rol eliminado</h3><span class="comparte">Postman · carpeta 2</span></div>
+    <div class="cue"><span class="label">Prueba</span><span>Enviar <b>2.1</b> a <b>2.5</b> seguidas.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Para el segundo requisito creo un rol temporal con GraphQL, creo un segundo usuario y les asigno el rol temporal a los dos. Aquí se ve que el primer usuario tiene USUARIO y el rol temporal.</p></div>
+    <div class="cue"><span class="label">Prueba</span><span><b>2.6 Eliminar el rol temporal</b>. Esperar 3 segundos. Luego <b>2.7</b> y <b>2.8</b>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Ahora elimino el rol… y si vuelvo a consultar a los dos usuarios, ya no lo tienen: les queda solo USUARIO. Se los quitó el procesador de rol eliminado.</p></div>
+    <div class="cue"><span class="label">Prueba</span><span><b>2.9 Auditoría del rol</b>, <b>2.10 Revocaciones</b> y <b>2.11 Notificaciones</b>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>La auditoría del rol muestra Rol.Creado y Rol.Eliminado. Y aquí están las dos revocaciones, una por usuario, con motivo ROL_ELIMINADO y el nombre del rol. Por último, cada usuario recibió el aviso de que ya no tiene el rol porque fue eliminado del sistema.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">7:45–8:45</span><h3>7. CRUD con REST y GraphQL</h3><span class="comparte">Postman · carpeta 3</span></div>
+    <div class="cue"><span class="label">Prueba</span><span><b>3.1</b>, <b>3.3</b>, <b>3.4</b> y <b>3.6</b>. Si te sobra tiempo, también <b>3.7</b>.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>El resto del CRUD también pasa por el BFF. Listar y actualizar usuarios es REST, con GET y PUT. Los roles se consultan con GraphQL, pidiendo solo los campos que necesito. Y los permisos son otra función REST.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">8:45–9:15</span><h3>8. Evidencia en Azure</h3><span class="comparte">Portal Azure · métricas</span></div>
+    <div class="cue"><span class="label">Pantalla</span><span>Topic → <i>Metrics</i>, actualizar el gráfico.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>En las métricas del topic se ven los eventos publicados durante la demo y los que calzaron con alguna suscripción. Son más los entregados que los publicados, porque un mismo evento llega a varias funciones: quien publica no sabe quién escucha.</p></div>
+  </div>
+
+  <div class="bloque">
+    <div class="bloque-cab"><span class="tc">9:15–9:45</span><h3>9. Git y cierre</h3><span class="comparte">GitHub</span></div>
+    <div class="cue"><span class="label">Pantalla</span><span>GitHub → <i>Commits</i>, y luego el README del repo.</span></div>
+    <div class="linea c"><span class="who c">Dices</span><p>El proyecto está versionado en GitHub, con un commit por cada entrega y la documentación en la carpeta docs.</p></div>
+    <div class="linea c"><span class="who c">Dices</span><p>Para cerrar: con Event Grid las reglas de negocio quedaron desacopladas de la API. Crear o eliminar responde rápido, y la asignación del rol por defecto, la limpieza de roles, la auditoría y las notificaciones ocurren aparte, con reintentos si algo falla. Para agregar una regla nueva basta con una nueva suscripción, sin tocar las funciones existentes. Gracias.</p></div>
+  </div>
+</section>
+
+<section id="pruebas">
+  <h2>Pruebas</h2>
+  <p class="intro">Colección <code>docs/semana9/EFT-usuarios-roles.postman_collection.json</code>. Las peticiones crean correos y nombres de rol nuevos en cada envío y guardan los ids solas: envíalas en orden, dentro de cada carpeta.</p>
+  <div class="pasos">
+    <div class="paso"><span class="n">1.1</span><span class="req"><b>POST</b> /api/usuarios</span><span class="esp">201 con <code>idUsuario</code>.</span></div>
+    <div class="paso"><span class="n">1.2</span><span class="req"><b>POST</b> /api/asignaciones · rolesDeUsuario</span><span class="esp"><code>USUARIO</code>.</span></div>
+    <div class="paso"><span class="n">1.3</span><span class="req"><b>GET</b> /api/auditoria?subject=usuarios/{id}</span><span class="esp"><code>Usuario.Creado</code> y <code>UsuarioRol.Asignado</code> con motivo <code>ROL_POR_DEFECTO</code>.</span></div>
+    <div class="paso"><span class="n">1.4</span><span class="req"><b>GET</b> /api/notificaciones?destinatario={correo}</span><span class="esp">Bienvenida y "se te asignó automáticamente el rol USUARIO".</span></div>
+    <div class="paso"><span class="n">2.1</span><span class="req"><b>POST</b> /api/roles · crearRol</span><span class="esp">El rol <code>TEMPORAL_NNNNN</code> con su <code>idRol</code>.</span></div>
+    <div class="paso"><span class="n">2.2–2.4</span><span class="req">Segundo usuario y dos asignaciones del rol temporal</span><span class="esp">201, y luego las dos asignaciones.</span></div>
+    <div class="paso"><span class="n">2.5</span><span class="req"><b>POST</b> /api/asignaciones · rolesDeUsuario</span><span class="esp"><code>USUARIO</code> y <code>TEMPORAL_NNNNN</code>.</span></div>
+    <div class="paso"><span class="n">2.6</span><span class="req"><b>POST</b> /api/roles · eliminarRol</span><span class="esp"><code>"eliminarRol": true</code>.</span></div>
+    <div class="paso"><span class="n">2.7–2.8</span><span class="req">rolesDeUsuario de los dos usuarios</span><span class="esp">Solo <code>USUARIO</code> en ambos.</span></div>
+    <div class="paso"><span class="n">2.9</span><span class="req"><b>GET</b> /api/auditoria?subject=roles/{idRol}</span><span class="esp"><code>Rol.Creado</code> y <code>Rol.Eliminado</code>.</span></div>
+    <div class="paso"><span class="n">2.10</span><span class="req"><b>GET</b> /api/auditoria?tipo=UsuarioRol.Revocado</span><span class="esp">Dos revocaciones con motivo <code>ROL_ELIMINADO</code>.</span></div>
+    <div class="paso"><span class="n">2.11</span><span class="req"><b>GET</b> /api/notificaciones?destinatario={correo}</span><span class="esp">"…porque fue eliminado del sistema".</span></div>
+    <div class="paso"><span class="n">3.x</span><span class="req">CRUD: usuarios (REST), roles (GraphQL), permisos (REST)</span><span class="esp">Listas en JSON; actualizar responde "Usuario actualizado correctamente".</span></div>
+  </div>
+</section>
+
+<section id="planb">
+  <h2>Si algo falla</h2>
+  <div class="fallas">
+    <div class="falla"><span class="sintoma">1.2 o 2.7 muestran todavía el estado anterior</span><span>Esperar 3 a 5 segundos y reenviar. Mientras, decir: "Event Grid entrega de forma asíncrona, por eso tarda un par de segundos".</span></div>
+    <div class="falla"><span class="sintoma">La primera petición tarda mucho o da 502</span><span>El BFF o las funciones estaban dormidas. Reenviar. Para evitarlo, ejecutar la carpeta 0 justo antes de grabar.</span></div>
+    <div class="falla"><span class="sintoma">"Error al realizar la operación en Oracle"</span><span>La base se detuvo por inactividad. En OCI: <i>Start</i>, esperar a <i>Available</i> y reintentar.</span></div>
+    <div class="falla"><span class="sintoma">"El usuario ya tiene asignado ese rol"</span><span>Se envió dos veces una asignación. No es grave: sigue con la siguiente petición.</span></div>
+    <div class="falla"><span class="sintoma">Las peticiones usan ids de una toma anterior</span><span>Se saltó la primera petición de la carpeta. Vuelve a empezar la carpeta desde arriba.</span></div>
+    <div class="falla"><span class="sintoma">Algo se rompe a mitad de la grabación</span><span>Detén y graba de nuevo. La pauta pide ver todo funcionando en tiempo real.</span></div>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function () {
+  var clave = 'libreto-eft-checks';
+  var marcas = {};
+  try { marcas = JSON.parse(localStorage.getItem(clave) || '{}') || {}; } catch (e) { marcas = {}; }
+  document.querySelectorAll('.grupo input[type=checkbox]').forEach(function (c) {
+    if (marcas[c.id]) c.checked = true;
+    c.addEventListener('change', function () {
+      marcas[c.id] = c.checked;
+      try { localStorage.setItem(clave, JSON.stringify(marcas)); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>
