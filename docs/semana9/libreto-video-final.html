@@ -164,12 +164,13 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
 <div class="wrap">
 
 <header>
-  <span class="label">DSY2207 · Evaluación Final Transversal · Parte II individual</span>
+  <span class="label">DSY2207 · Evaluación Final Transversal · Grupo 19</span>
   <h1>Libreto del video final</h1>
-  <p class="sub">Guion, preparación y pruebas para presentar solo el Sistema de Gestión de Usuarios y Roles: arquitectura, código, despliegue en la nube y las dos reglas nuevas con eventos, funcionando en tiempo real.</p>
+  <p class="sub">Guion, preparación y pruebas para presentar el Sistema de Gestión de Usuarios y Roles: arquitectura, código, despliegue en la nube y las dos reglas nuevas con eventos, funcionando en tiempo real. Carlos comparte pantalla y ejecuta todo; Alberto narra cerca de la mitad mientras Carlos opera.</p>
   <div class="facts">
     <span class="fact">Duración objetivo <b>9:45</b></span>
-    <span class="fact">Presentas <b>tú solo</b></span>
+    <span class="fact"><span class="who c">Carlos</span> comparte y ejecuta</span>
+    <span class="fact"><span class="who a">Alberto</span> narra la mitad</span>
     <span class="fact">Grabar con <b>Kaltura</b> (o Teams y subirlo)</span>
   </div>
 </header>
@@ -181,6 +182,11 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
   <a href="#libreto">Libreto</a>
   <a href="#pruebas">Pruebas</a>
   <a href="#planb">Si algo falla</a>
+  <div class="vista" role="group" aria-label="Resaltar líneas">
+    <button type="button" data-solo="" aria-pressed="true">Todos</button>
+    <button type="button" data-solo="c" aria-pressed="false">Carlos</button>
+    <button type="button" data-solo="a" aria-pressed="false">Alberto</button>
+  </div>
 </nav>
 
 <section id="escaleta">
@@ -188,17 +194,17 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
   <p class="intro">La pauta da 20 puntos al video y pide mostrar en tiempo real todos los requisitos. Los bloques 5 y 6 son los que más pesan: no los recortes.</p>
   <div class="tabla">
     <table>
-      <thead><tr><th>Tiempo</th><th>Bloque</th><th>En pantalla</th><th>Criterio de la pauta</th></tr></thead>
+      <thead><tr><th>Tiempo</th><th>Bloque</th><th>En pantalla</th><th>Hablan</th><th>Criterio de la pauta</th></tr></thead>
       <tbody>
-        <tr><td class="tc">0:00–0:30</td><td>1. Presentación</td><td>Diagrama</td><td>Video</td></tr>
-        <tr><td class="tc">0:30–2:00</td><td>2. Caso y arquitectura</td><td>Diagrama</td><td>Video · eventos</td></tr>
-        <tr><td class="tc">2:00–3:30</td><td>3. Código</td><td>VS Code</td><td>Spring Boot · FaaS · eventos</td></tr>
-        <tr><td class="tc">3:30–4:30</td><td>4. Despliegue en la nube</td><td>Portal Azure</td><td>Despliegue cloud</td></tr>
-        <tr><td class="tc">4:30–6:00</td><td>5. Requisito 1: rol por defecto</td><td>Postman · carpeta 1</td><td>Eventos · integración BFF</td></tr>
-        <tr><td class="tc">6:00–7:45</td><td>6. Requisito 2: rol eliminado</td><td>Postman · carpeta 2</td><td>Eventos · integración BFF</td></tr>
-        <tr><td class="tc">7:45–8:45</td><td>7. CRUD con REST y GraphQL</td><td>Postman · carpeta 3</td><td>FaaS REST y GraphQL</td></tr>
-        <tr><td class="tc">8:45–9:15</td><td>8. Evidencia en Azure</td><td>Portal Azure (métricas)</td><td>Eventos · despliegue</td></tr>
-        <tr><td class="tc">9:15–9:45</td><td>9. Git y cierre</td><td>GitHub</td><td>Git colaborativo</td></tr>
+        <tr><td class="tc">0:00–0:30</td><td>1. Presentación</td><td>Diagrama</td><td>Carlos, Alberto</td><td>Video</td></tr>
+        <tr><td class="tc">0:30–2:00</td><td>2. Caso y arquitectura</td><td>Diagrama</td><td>Carlos, Alberto</td><td>Video · eventos</td></tr>
+        <tr><td class="tc">2:00–3:30</td><td>3. Código</td><td>VS Code</td><td>Carlos, Alberto</td><td>Spring Boot · FaaS · eventos</td></tr>
+        <tr><td class="tc">3:30–4:30</td><td>4. Despliegue en la nube</td><td>Portal Azure</td><td>Carlos, Alberto</td><td>Despliegue cloud</td></tr>
+        <tr><td class="tc">4:30–6:00</td><td>5. Requisito 1: rol por defecto</td><td>Postman · carpeta 1</td><td>Alberto, Carlos</td><td>Eventos · integración BFF</td></tr>
+        <tr><td class="tc">6:00–7:45</td><td>6. Requisito 2: rol eliminado</td><td>Postman · carpeta 2</td><td>Carlos, Alberto</td><td>Eventos · integración BFF</td></tr>
+        <tr><td class="tc">7:45–8:45</td><td>7. CRUD con REST y GraphQL</td><td>Postman · carpeta 3</td><td>Carlos</td><td>FaaS REST y GraphQL</td></tr>
+        <tr><td class="tc">8:45–9:15</td><td>8. Evidencia en Azure</td><td>Portal Azure (métricas)</td><td>Alberto</td><td>Eventos · despliegue</td></tr>
+        <tr><td class="tc">9:15–9:45</td><td>9. Git y cierre</td><td>GitHub</td><td>Alberto, Carlos</td><td>Git colaborativo</td></tr>
       </tbody>
     </table>
   </div>
@@ -211,9 +217,10 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
     <div class="grupo">
       <h3>El día antes</h3>
       <ul>
-        <li><label><input type="checkbox" id="e-postman"><span>Importar en Postman <code>docs/semana9/EFT-usuarios-roles.postman_collection.json</code> (Import → File).</span></label></li>
+        <li><label><input type="checkbox" id="e-reparto"><span>Carlos y Alberto leen el libreto completo y cada uno ensaya sus líneas (botones de arriba).</span></label></li>
+        <li><label><input type="checkbox" id="e-postman"><span>Carlos importa en Postman <code>docs/semana9/EFT-usuarios-roles.postman_collection.json</code> (Import → File).</span></label></li>
         <li><label><input type="checkbox" id="e-ensayo"><span>Un ensayo completo con cronómetro, siguiendo este libreto.</span></label></li>
-        <li><label><input type="checkbox" id="e-kaltura"><span>Revisar el instructivo de Kaltura de la guía de la semana y probar que graba pantalla y micrófono.</span></label></li>
+        <li><label><input type="checkbox" id="e-kaltura"><span>Revisar el instructivo de Kaltura de la guía de la semana. Si graban en Teams, probar que se escuchan los dos micrófonos.</span></label></li>
         <li><label><input type="checkbox" id="e-git"><span>Todo subido a GitHub. Los <code>.mp4</code> no van al repo.</span></label></li>
       </ul>
     </div>
@@ -230,10 +237,10 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
     <div class="grupo">
       <h3>Al empezar</h3>
       <ul>
+        <li><label><input type="checkbox" id="e-teams"><span>Reunión de Teams con los dos y cámaras encendidas. Carlos comparte <b>la pantalla completa</b> y presiona <b>Iniciar grabación</b>.</span></label></li>
         <li><label><input type="checkbox" id="e-notif"><span>Notificaciones silenciadas (Windows, Teams, WhatsApp).</span></label></li>
         <li><label><input type="checkbox" id="e-zoom"><span>Zoom al 125 % en el navegador, VS Code y Postman.</span></label></li>
-        <li><label><input type="checkbox" id="e-pantalla"><span>Grabar <b>la pantalla completa</b>, no una ventana, para que se vea al cambiar de programa con Alt+Tab.</span></label></li>
-        <li><label><input type="checkbox" id="e-libreto"><span>Este libreto en el celular o en otra pantalla.</span></label></li>
+        <li><label><input type="checkbox" id="e-libreto"><span>Este libreto en el celular o en otra pantalla, no en la compartida. Alberto lo tiene abierto en su computador.</span></label></li>
       </ul>
     </div>
   </div>
@@ -245,7 +252,7 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
 
 <section id="pantallas">
   <h2>Qué tener abierto</h2>
-  <p class="intro">En el orden en que se usa. Para pasar de un programa a otro: Alt+Tab.</p>
+  <p class="intro">Todo en el computador de Carlos, en el orden en que se usa. Para pasar de un programa a otro: Alt+Tab.</p>
   <div class="pantallas">
     <div class="pantalla">
       <h3>Primera parte · 0:00 – 3:30</h3>
@@ -281,81 +288,83 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
 
 <section id="libreto">
   <h2>Libreto</h2>
-  <p class="intro">Las líneas son una guía: dilas con tus palabras. En morado está lo que debe verse en pantalla.</p>
+  <p class="intro">Las líneas son una guía: díganlas con sus palabras. Arriba pueden resaltar solo sus propias líneas. En morado está lo que debe verse en pantalla.</p>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">0:00–0:30</span><h3>1. Presentación</h3><span class="comparte">Diagrama</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Hola, soy Carlos Orrego. Esta es la evaluación final de Desarrollo Cloud Native II. Voy a presentar el Sistema de Gestión de Usuarios y Roles: un backend en la nube con un BFF en Spring Boot, funciones serverless en Java con REST y GraphQL, y una arquitectura orientada a eventos con Azure Event Grid.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Hola, somos el grupo 19 de Desarrollo Cloud Native II. Yo soy Carlos Orrego…</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>…y yo soy Alberto Díaz. Esta es nuestra evaluación final: el Sistema de Gestión de Usuarios y Roles, un backend en la nube con un BFF en Spring Boot, funciones serverless en Java con REST y GraphQL, y una arquitectura orientada a eventos con Azure Event Grid.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">0:30–2:00</span><h3>2. Caso y arquitectura</h3><span class="comparte">Diagrama</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>El sistema permite el CRUD de usuarios, roles y permisos, y tiene dos reglas que deben ocurrir automáticamente con eventos: cuando se crea un usuario, se le asigna un rol por defecto; y cuando se elimina un rol, se les quita a todos los usuarios que lo tenían.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>El sistema permite el CRUD de usuarios, roles y permisos, y tiene dos reglas que deben ocurrir automáticamente con eventos: cuando se crea un usuario, se le asigna un rol por defecto; y cuando se elimina un rol, se les quita a todos los usuarios que lo tenían.</p></div>
     <div class="cue"><span class="label">Pantalla</span><span>Recorrer el diagrama con el mouse, de izquierda a derecha.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Postman llama al BFF en Spring Boot, que corre como contenedor Docker en Azure Container Apps. El BFF orquesta las funciones serverless: usuarios y permisos con REST, roles y asignaciones con GraphQL. Cada función guarda el cambio en Oracle y publica un evento en un topic de Azure Event Grid.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Postman llama al BFF en Spring Boot, que corre como contenedor Docker en Azure Container Apps. El BFF orquesta las funciones serverless: usuarios y permisos con REST, roles y asignaciones con GraphQL. Cada función guarda el cambio en Oracle y publica un evento en un topic de Azure Event Grid.</p></div>
     <div class="cue"><span class="label">Pantalla</span><span>Señalar el recuadro de Event Grid y luego el de las funciones de la derecha (en verde, lo nuevo).</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Event Grid entrega cada evento a las funciones suscritas, según el filtro de cada suscripción. Para esta evaluación agregué dos procesadores, en verde: el de rol por defecto escucha Usuario.Creado, y el de rol eliminado escucha Rol.Eliminado. Los procesadores publican eventos nuevos, que son las flechas punteadas. Además, la auditoría guarda todos los eventos y las notificaciones avisan a cada usuario afectado.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>Event Grid entrega cada evento a las funciones suscritas, según el filtro de cada suscripción. Para esta evaluación agregamos dos procesadores, en verde: el de rol por defecto escucha Usuario.Creado, y el de rol eliminado escucha Rol.Eliminado. Los procesadores publican eventos nuevos, que son las flechas punteadas. Además, la auditoría guarda todos los eventos y las notificaciones avisan a cada usuario afectado.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">2:00–3:30</span><h3>3. Código</h3><span class="comparte">VS Code</span></div>
     <div class="cue"><span class="label">Pantalla</span><span><code>BffController.java</code>, línea 35, y bajar al método <code>reenviar</code>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Este es el BFF en Spring Boot. Cada ruta reenvía la petición a la función serverless que corresponde y devuelve la respuesta en JSON.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Este es el BFF en Spring Boot. Cada ruta reenvía la petición a la función serverless que corresponde y devuelve la respuesta en JSON.</p></div>
     <div class="cue"><span class="label">Pantalla</span><span><code>UsuariosFunction.java</code>, línea 200 → <code>ProcesadorRolPorDefectoFunction.java</code>, líneas 35, 61 y 93.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Al crear un usuario, la función publica Usuario.Creado. Este procesador tiene la anotación EventGridTrigger, así que Azure lo ejecuta cuando llega ese evento. Busca el rol USUARIO, lo inserta en USUARIOS_ROLES y publica UsuarioRol.Asignado. Si Event Grid reintenta la entrega, no se duplica: el usuario ya tiene el rol y no hace nada.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Al crear un usuario, la función publica Usuario.Creado. Este procesador tiene la anotación EventGridTrigger, así que Azure lo ejecuta cuando llega ese evento. Busca el rol USUARIO, lo inserta en USUARIOS_ROLES y publica UsuarioRol.Asignado. Si Event Grid reintenta la entrega, no se duplica: el usuario ya tiene el rol y no hace nada.</p></div>
     <div class="cue"><span class="label">Pantalla</span><span><code>RolesGraphQLFunction.java</code>, líneas 250 y 272 → <code>ProcesadorRolEliminadoFunction.java</code>, líneas 46, 77 y 67.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Al eliminar un rol, la función GraphQL lee su nombre, lo borra y publica Rol.Eliminado. El procesador de rol eliminado busca a los usuarios que lo tenían, borra esas asignaciones en una transacción y publica un UsuarioRol.Revocado por cada usuario.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>Al eliminar un rol, la función GraphQL lee su nombre, lo borra y publica Rol.Eliminado. El procesador de rol eliminado busca a los usuarios que lo tenían, borra esas asignaciones en una transacción y publica un UsuarioRol.Revocado por cada usuario.</p></div>
     <div class="cue"><span class="label">Pantalla</span><span><code>semana9_eventos.sql</code>, línea 18.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Para que esa limpieza la haga el componente de eventos y no la base de datos, quité el borrado en cascada de la llave foránea. Es consistencia eventual: por un par de segundos pueden quedar asignaciones de un rol que ya no existe, pero no se ven, porque las consultas cruzan con la tabla de roles.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>Para que esa limpieza la haga el componente de eventos y no la base de datos, quitamos el borrado en cascada de la llave foránea. Es consistencia eventual: por un par de segundos pueden quedar asignaciones de un rol que ya no existe, pero no se ven, porque las consultas cruzan con la tabla de roles.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">3:30–4:30</span><h3>4. Despliegue en la nube</h3><span class="comparte">Portal Azure</span></div>
     <div class="cue"><span class="label">Pantalla</span><span>Grupo de recursos <code>prueba_funcion</code>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Todo está desplegado en Azure: la Function App, el topic de Event Grid, la Container App del BFF y el storage para el dead-letter. La base de datos es Oracle Autonomous Database en OCI.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Todo está desplegado en Azure: la Function App, el topic de Event Grid, la Container App del BFF y el storage para el dead-letter. La base de datos es Oracle Autonomous Database en OCI.</p></div>
     <div class="cue"><span class="label">Pantalla</span><span>Topic → <i>Event Subscriptions</i>: mostrar las 6. Abrir <code>sub-rol-eliminado</code> → <i>Filters</i>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>El topic tiene seis suscripciones, cada una con su filtro. Por ejemplo, sub-rol-eliminado solo recibe Rol.Eliminado. Si una entrega falla, Event Grid reintenta hasta diez veces, y lo que no se puede entregar queda en dead-letter.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>El topic tiene seis suscripciones, cada una con su filtro. Por ejemplo, sub-rol-eliminado solo recibe Rol.Eliminado. Si una entrega falla, Event Grid reintenta hasta diez veces, y lo que no se puede entregar queda en dead-letter.</p></div>
     <div class="cue"><span class="label">Pantalla</span><span>Function App → <i>Functions</i> (13). Luego Container App → <i>Overview</i>, señalar la URL.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>La Function App tiene trece funciones en Java: las HTTP con REST y GraphQL, y seis disparadas por Event Grid. Y esta es la URL pública del BFF, que es la que voy a usar en Postman.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>La Function App tiene trece funciones en Java: las HTTP con REST y GraphQL, y seis disparadas por Event Grid. Y esta es la URL pública del BFF, que es la que Carlos va a usar en Postman.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">4:30–6:00</span><h3>5. Requisito 1: rol por defecto</h3><span class="comparte">Postman · carpeta 1</span></div>
-    <div class="cue"><span class="label">Prueba</span><span>Enviar <b>1.1 Crear usuario</b>. Esperar 3 segundos.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Creo un usuario a través del BFF. Fíjense que en el cuerpo no envío ningún rol. La API responde de inmediato con el id; lo demás ocurre de forma asíncrona.</p></div>
+    <div class="cue"><span class="label">Prueba</span><span>Carlos envía <b>1.1 Crear usuario</b>; narra Alberto. Esperar 3 segundos.</span></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>Carlos crea un usuario a través del BFF. Fíjense que en el cuerpo no se envía ningún rol. La API responde de inmediato con el id; lo demás ocurre de forma asíncrona.</p></div>
     <div class="cue"><span class="label">Prueba</span><span><b>1.2 Roles del usuario</b> → debe mostrar <code>USUARIO</code>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Si consulto sus roles, ya tiene el rol USUARIO. Nadie se lo asignó a mano: lo hizo el procesador al recibir el evento.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>Si consultamos sus roles, ya tiene el rol USUARIO. Nadie se lo asignó a mano: lo hizo el procesador al recibir el evento.</p></div>
     <div class="cue"><span class="label">Prueba</span><span><b>1.3 Auditoría</b> y <b>1.4 Notificaciones</b>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>En la auditoría se ve la cadena: primero Usuario.Creado, y luego UsuarioRol.Asignado con motivo ROL_POR_DEFECTO, cuyo eventoOrigen apunta al evento de creación. Y el usuario recibió la bienvenida y el aviso de que se le asignó el rol automáticamente.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>En la auditoría se ve la cadena: primero Usuario.Creado, y luego UsuarioRol.Asignado con motivo ROL_POR_DEFECTO, cuyo eventoOrigen apunta al evento de creación. Y el usuario recibió la bienvenida y el aviso de que se le asignó el rol automáticamente.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">6:00–7:45</span><h3>6. Requisito 2: rol eliminado</h3><span class="comparte">Postman · carpeta 2</span></div>
     <div class="cue"><span class="label">Prueba</span><span>Enviar <b>2.1</b> a <b>2.5</b> seguidas.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Para el segundo requisito creo un rol temporal con GraphQL, creo un segundo usuario y les asigno el rol temporal a los dos. Aquí se ve que el primer usuario tiene USUARIO y el rol temporal.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Para el segundo requisito creo un rol temporal con GraphQL, un segundo usuario, y les asigno el rol temporal a los dos. Aquí se ve que el primer usuario tiene USUARIO y el rol temporal.</p></div>
     <div class="cue"><span class="label">Prueba</span><span><b>2.6 Eliminar el rol temporal</b>. Esperar 3 segundos. Luego <b>2.7</b> y <b>2.8</b>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Ahora elimino el rol… y si vuelvo a consultar a los dos usuarios, ya no lo tienen: les queda solo USUARIO. Se los quitó el procesador de rol eliminado.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Ahora elimino el rol… y si vuelvo a consultar a los dos usuarios, ya no lo tienen: les queda solo USUARIO. Se los quitó el procesador de rol eliminado.</p></div>
     <div class="cue"><span class="label">Prueba</span><span><b>2.9 Auditoría del rol</b>, <b>2.10 Revocaciones</b> y <b>2.11 Notificaciones</b>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>La auditoría del rol muestra Rol.Creado y Rol.Eliminado. Y aquí están las dos revocaciones, una por usuario, con motivo ROL_ELIMINADO y el nombre del rol. Por último, cada usuario recibió el aviso de que ya no tiene el rol porque fue eliminado del sistema.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>La auditoría del rol muestra Rol.Creado y Rol.Eliminado. Y aquí están las dos revocaciones, una por usuario, con motivo ROL_ELIMINADO y el nombre del rol. Por último, cada usuario recibió el aviso de que ya no tiene el rol porque fue eliminado del sistema.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">7:45–8:45</span><h3>7. CRUD con REST y GraphQL</h3><span class="comparte">Postman · carpeta 3</span></div>
     <div class="cue"><span class="label">Prueba</span><span><b>3.1</b>, <b>3.3</b>, <b>3.4</b> y <b>3.6</b>. Si te sobra tiempo, también <b>3.7</b>.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>El resto del CRUD también pasa por el BFF. Listar y actualizar usuarios es REST, con GET y PUT. Los roles se consultan con GraphQL, pidiendo solo los campos que necesito. Y los permisos son otra función REST.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>El resto del CRUD también pasa por el BFF. Listar y actualizar usuarios es REST, con GET y PUT. Los roles se consultan con GraphQL, pidiendo solo los campos que necesito. Y los permisos son otra función REST.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">8:45–9:15</span><h3>8. Evidencia en Azure</h3><span class="comparte">Portal Azure · métricas</span></div>
     <div class="cue"><span class="label">Pantalla</span><span>Topic → <i>Metrics</i>, actualizar el gráfico.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>En las métricas del topic se ven los eventos publicados durante la demo y los que calzaron con alguna suscripción. Son más los entregados que los publicados, porque un mismo evento llega a varias funciones: quien publica no sabe quién escucha.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>En las métricas del topic se ven los eventos publicados durante la demo y los que calzaron con alguna suscripción. Son más los entregados que los publicados, porque un mismo evento llega a varias funciones: quien publica no sabe quién escucha.</p></div>
   </div>
 
   <div class="bloque">
     <div class="bloque-cab"><span class="tc">9:15–9:45</span><h3>9. Git y cierre</h3><span class="comparte">GitHub</span></div>
     <div class="cue"><span class="label">Pantalla</span><span>GitHub → <i>Commits</i>, y luego el README del repo.</span></div>
-    <div class="linea c"><span class="who c">Dices</span><p>El proyecto está versionado en GitHub, con un commit por cada entrega y la documentación en la carpeta docs.</p></div>
-    <div class="linea c"><span class="who c">Dices</span><p>Para cerrar: con Event Grid las reglas de negocio quedaron desacopladas de la API. Crear o eliminar responde rápido, y la asignación del rol por defecto, la limpieza de roles, la auditoría y las notificaciones ocurren aparte, con reintentos si algo falla. Para agregar una regla nueva basta con una nueva suscripción, sin tocar las funciones existentes. Gracias.</p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>El proyecto está versionado en GitHub, con commits de cada entrega y la documentación en la carpeta docs.</p></div>
+    <div class="linea c"><span class="who c">Carlos</span><p>Para cerrar: con Event Grid las reglas de negocio quedaron desacopladas de la API. Crear o eliminar responde rápido, y la asignación del rol por defecto, la limpieza de roles, la auditoría y las notificaciones ocurren aparte, con reintentos si algo falla. </p></div>
+    <div class="linea a"><span class="who a">Alberto</span><p>Y para agregar una regla nueva basta con una suscripción más, sin tocar las funciones que ya existen. Gracias por su atención.</p></div>
   </div>
 </section>
 
@@ -387,7 +396,7 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
     <div class="falla"><span class="sintoma">"Error al realizar la operación en Oracle"</span><span>La base se detuvo por inactividad. En OCI: <i>Start</i>, esperar a <i>Available</i> y reintentar.</span></div>
     <div class="falla"><span class="sintoma">"El usuario ya tiene asignado ese rol"</span><span>Se envió dos veces una asignación. No es grave: sigue con la siguiente petición.</span></div>
     <div class="falla"><span class="sintoma">Las peticiones usan ids de una toma anterior</span><span>Se saltó la primera petición de la carpeta. Vuelve a empezar la carpeta desde arriba.</span></div>
-    <div class="falla"><span class="sintoma">Algo se rompe a mitad de la grabación</span><span>Detén y graba de nuevo. La pauta pide ver todo funcionando en tiempo real.</span></div>
+    <div class="falla"><span class="sintoma">Algo se rompe a mitad de la grabación</span><span>Detengan y graben de nuevo. La pauta pide ver todo funcionando en tiempo real.</span></div>
   </div>
 </section>
 
@@ -395,6 +404,15 @@ textarea#json { width: 100%; height: 140px; font: 0.78rem/1.4 var(--font-mono); 
 
 <script>
 (function () {
+  var botones = document.querySelectorAll('.vista button');
+  function resaltar(solo) {
+    if (solo) document.body.setAttribute('data-solo', solo); else document.body.removeAttribute('data-solo');
+    botones.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.solo === solo)); });
+    try { localStorage.setItem('libreto-eft-solo', solo); } catch (e) {}
+  }
+  botones.forEach(function (b) { b.addEventListener('click', function () { resaltar(b.dataset.solo); }); });
+  try { var guardado = localStorage.getItem('libreto-eft-solo'); if (guardado) resaltar(guardado); } catch (e) {}
+
   var clave = 'libreto-eft-checks';
   var marcas = {};
   try { marcas = JSON.parse(localStorage.getItem(clave) || '{}') || {}; } catch (e) { marcas = {}; }
