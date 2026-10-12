@@ -1,0 +1,582 @@
+{
+  "info": {
+    "name": "EFT · Sistema de Gestión de Usuarios y Roles",
+    "description": "Pruebas de la evaluación final contra el BFF desplegado en Azure. Ejecutar cada carpeta en orden. Entre una acción y su verificación, esperar 3 segundos: Event Grid entrega de forma asíncrona.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "bff",
+      "value": "https://bff-usuarios-roles.politesmoke-8ab26d2c.eastus.azurecontainerapps.io"
+    },
+    {
+      "key": "functions",
+      "value": "https://funcionusuariosroles1-hqasc7d7b2b2d9b9.eastus-01.azurewebsites.net/api"
+    },
+    {
+      "key": "correo",
+      "value": ""
+    },
+    {
+      "key": "idUsuario",
+      "value": ""
+    },
+    {
+      "key": "correo2",
+      "value": ""
+    },
+    {
+      "key": "idUsuario2",
+      "value": ""
+    },
+    {
+      "key": "idRolTemporal",
+      "value": ""
+    },
+    {
+      "key": "nombreRolTemporal",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0 · Antes de grabar",
+      "description": "Despierta el BFF, las Functions y Oracle. No va en el video.",
+      "item": [
+        {
+          "name": "BFF arriba",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/actuator/health"
+          }
+        },
+        {
+          "name": "Functions + Oracle",
+          "request": {
+            "method": "GET",
+            "url": "{{functions}}/diagnostico/oracle"
+          }
+        }
+      ]
+    },
+    {
+      "name": "1 · Requisito: rol por defecto al crear un usuario",
+      "description": "Usuario.Creado → procesador-rol-por-defecto asigna USUARIO y publica UsuarioRol.Asignado.",
+      "item": [
+        {
+          "name": "1.1 Crear usuario",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/usuarios",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Valentina\",\n  \"apellido\": \"Rojas\",\n  \"correo\": \"{{correo}}\",\n  \"contrasena\": \"Clave123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Correo distinto en cada envío: nunca choca con uno ya registrado.",
+                  "pm.collectionVariables.set(\"correo\", \"valentina.rojas.\" + String(Date.now()).slice(-6) + \"@empresa.cl\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Usuario creado (201)\", () => pm.response.to.have.status(201));",
+                  "const r = pm.response.json(); if (r.idUsuario) pm.collectionVariables.set(\"idUsuario\", String(r.idUsuario));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.2 Roles del usuario (debe tener USUARIO)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"{ rolesDeUsuario(idUsuario: {{idUsuario}}) { idRol nombre } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "1.3 Auditoría del usuario",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/auditoria?subject=usuarios/{{idUsuario}}"
+          }
+        },
+        {
+          "name": "1.4 Notificaciones del usuario",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/notificaciones?destinatario={{correo}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 · Requisito: al eliminar un rol se les quita a sus usuarios",
+      "description": "Rol.Eliminado → procesador-rol-eliminado borra las asignaciones y publica UsuarioRol.Revocado por usuario.",
+      "item": [
+        {
+          "name": "2.1 Crear rol temporal",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/roles",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"mutation { crearRol(nombre: \\\"{{nombreRolTemporal}}\\\", descripcion: \\\"Rol temporal para la demo\\\", estado: \\\"ACTIVO\\\") { idRol nombre estado } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"nombreRolTemporal\", \"TEMPORAL_\" + String(Date.now()).slice(-5));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const r = pm.response.json();",
+                  "pm.test(\"Rol creado\", () => pm.expect(r.data && r.data.crearRol).to.be.ok);",
+                  "if (r.data && r.data.crearRol) pm.collectionVariables.set(\"idRolTemporal\", String(r.data.crearRol.idRol));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.2 Crear un segundo usuario",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/usuarios",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Matias\",\n  \"apellido\": \"Rojas\",\n  \"correo\": \"{{correo2}}\",\n  \"contrasena\": \"Clave123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Correo distinto en cada envío: nunca choca con uno ya registrado.",
+                  "pm.collectionVariables.set(\"correo2\", \"matias.rojas.\" + String(Date.now()).slice(-6) + \"@empresa.cl\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Usuario creado (201)\", () => pm.response.to.have.status(201));",
+                  "const r = pm.response.json(); if (r.idUsuario) pm.collectionVariables.set(\"idUsuario2\", String(r.idUsuario));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.3 Asignar el rol temporal al usuario 1",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"mutation { asignarRolAUsuario(idUsuario: {{idUsuario}}, idRol: {{idRolTemporal}}) { idUsuario idRol fechaAsignacion } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "2.4 Asignar el rol temporal al usuario 2",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"mutation { asignarRolAUsuario(idUsuario: {{idUsuario2}}, idRol: {{idRolTemporal}}) { idUsuario idRol fechaAsignacion } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "2.5 Roles del usuario 1 (USUARIO + TEMPORAL)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"{ rolesDeUsuario(idUsuario: {{idUsuario}}) { idRol nombre } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "2.6 Eliminar el rol temporal",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/roles",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"mutation { eliminarRol(id: {{idRolTemporal}}) }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "2.7 Roles del usuario 1 (solo USUARIO)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"{ rolesDeUsuario(idUsuario: {{idUsuario}}) { idRol nombre } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "2.8 Roles del usuario 2 (solo USUARIO)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"{ rolesDeUsuario(idUsuario: {{idUsuario2}}) { idRol nombre } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "2.9 Auditoría del rol",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/auditoria?subject=roles/{{idRolTemporal}}"
+          }
+        },
+        {
+          "name": "2.10 Auditoría: revocaciones por rol eliminado",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/auditoria?tipo=UsuarioRol.Revocado&limite=5"
+          }
+        },
+        {
+          "name": "2.11 Notificaciones del usuario 1",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/notificaciones?destinatario={{correo}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 · CRUD de usuarios y roles",
+      "description": "REST (usuarios, permisos) y GraphQL (roles, asignaciones) a través del BFF.",
+      "item": [
+        {
+          "name": "3.1 Listar usuarios (REST)",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/usuarios"
+          }
+        },
+        {
+          "name": "3.2 Obtener usuario por id (REST)",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/usuarios/{{idUsuario}}"
+          }
+        },
+        {
+          "name": "3.3 Actualizar usuario (REST)",
+          "request": {
+            "method": "PUT",
+            "url": "{{bff}}/api/usuarios/{{idUsuario}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Valentina Paz\",\n  \"apellido\": \"Rojas\",\n  \"correo\": \"{{correo}}\",\n  \"estado\": \"ACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "3.4 Listar roles (GraphQL)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/roles",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"{ roles { idRol nombre descripcion estado } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "3.5 Actualizar rol (GraphQL)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/roles",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"mutation { actualizarRol(id: 2, nombre: \\\"SUPERVISOR\\\", descripcion: \\\"Supervisa usuarios y operaciones de tienda\\\", estado: \\\"ACTIVO\\\") { idRol nombre descripcion } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "3.6 Listar permisos (REST)",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/permisos"
+          }
+        },
+        {
+          "name": "3.7 Eliminar el segundo usuario (REST)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{bff}}/api/usuarios/{{idUsuario2}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 · Extra (semana 8)",
+      "description": "Procesadores de seguridad y desactivación.",
+      "item": [
+        {
+          "name": "4.1 Asignar ADMINISTRADOR (rol crítico)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"mutation { asignarRolAUsuario(idUsuario: {{idUsuario}}, idRol: 1) { idUsuario idRol } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "4.2 Notificaciones de seguridad",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/notificaciones?destinatario=seguridad@empresa.cl&limite=3"
+          }
+        },
+        {
+          "name": "4.3 Desactivar usuario",
+          "request": {
+            "method": "PUT",
+            "url": "{{bff}}/api/usuarios/{{idUsuario}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Valentina Paz\",\n  \"apellido\": \"Rojas\",\n  \"correo\": \"{{correo}}\",\n  \"estado\": \"INACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "4.4 Roles del usuario (debe estar vacío)",
+          "request": {
+            "method": "POST",
+            "url": "{{bff}}/api/asignaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"query\":\"{ rolesDeUsuario(idUsuario: {{idUsuario}}) { idRol nombre } }\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "4.5 Auditoría completa del usuario",
+          "request": {
+            "method": "GET",
+            "url": "{{bff}}/api/auditoria?subject=usuarios/{{idUsuario}}"
+          }
+        }
+      ]
+    }
+  ]
+}
